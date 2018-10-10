@@ -1,0 +1,79 @@
+package farming;
+
+import java.util.ArrayList;
+
+public class ItemContainer {
+	ArrayList<Item> self = new ArrayList<Item>();
+	String name;
+	float price;
+	int locX;
+	int locY;
+	int length;
+	int width;
+	
+	public ItemContainer() {
+		//Leave the self container empty to add item first
+		
+	}
+
+	public ArrayList<Item> getSelf() {
+		return self;
+	}
+
+	public void addItem(Item a) {
+		if (!self.contains(a)) {
+			self.add(a);
+		}
+		else {
+			System.out.println("Specified Item already in container");
+		}
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public float getPrice() {
+		return price;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
+	}
+
+	public int getLocX() {
+		return locX;
+	}
+
+	public void setLocX(int locX) {
+		this.locX = locX;
+	}
+
+	public int getLocY() {
+		return locY;
+	}
+
+	public void setLocY(int locY) {
+		this.locY = locY;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+}
