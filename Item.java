@@ -2,6 +2,8 @@ package farming;
 
 public class Item {
 	
+	//TODO: This is a class for other objects so this class can have properties removed as soon as other object variables are decided
+	
 	String name; //Name of the item
 	float price; //Price of the item (float is necessary)
 	int locX; //x-coordinate
@@ -25,6 +27,10 @@ public class Item {
 		this.length = length;
 		this.width = width;
 		this.price = price;
+	}
+	
+	public Item(String name) {
+		this.name = name;
 	}
 
 	public String getName() {
