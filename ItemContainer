@@ -4,29 +4,76 @@ import java.util.ArrayList;
 
 public class ItemContainer {
 	ArrayList<Item> self = new ArrayList<Item>();
-	String name;
-	float price;
-	int locX;
-	int locY;
-	int length;
-	int width;
+	String name; //holds name
+	float price; //Holds price of the container
+	int locX; //intial x
+	int locY; //intial y
+	int length; //length value
+	int width; //width value
+	float containerPrice; //holds total price for everything in the container
 	
-	public ItemContainer() {
-		//Leave the self container empty to add item first
-		
+	public ItemContainer(String name, int locX, int locY, int length, int width) {
+		this.name = name;
+		this.locX = locX;
+		this.locY = locY;
+		this.length = length;
+		this.width = width;
+		this.price = 500; //Default if price is not given
+	}
+	
+	public ItemContainer(String name, float price, int locX, int locY, int length, int width) {
+		this.name = name;
+		this.locX = locX;
+		this.locY = locY;
+		this.length = length;
+		this.width = width;
+		this.price = price;
 	}
 
 	public ArrayList<Item> getSelf() {
 		return self;
 	}
-
+	
+	/**
+	 * This will calculate the total price of all items in this container
+	 */
+	public void totalPrice() {
+		float total = 0;
+		for (Item a : self) {
+			total += a.getPrice();
+		}
+		containerPrice = total;
+	}
+	
+	/**
+	 * This adds a item to the container but does not if the same item already exists
+	 * @param a, item you wish to add to the container
+	 */
 	public void addItem(Item a) {
 		if (!self.contains(a)) {
 			self.add(a);
+			totalPrice();
 		}
 		else {
 			System.out.println("Specified Item already in container");
 		}
+	}
+	
+	public void removeItem(Item a) {
+		if (self.contains(a)) {
+			self.remove(a);
+			totalPrice();
+		}
+		else {
+			System.out.println("Requested item is not in this container");
+		}
+	}
+	
+	/**
+	 * This method will remove all items from this container
+	 */
+	public void removeAllItems() {
+		self.clear();
 	}
 
 	public String getName() {
@@ -76,4 +123,5 @@ public class ItemContainer {
 	public void setWidth(int width) {
 		this.width = width;
 	}
+
 }
