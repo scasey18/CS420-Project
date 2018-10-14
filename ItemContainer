@@ -54,18 +54,12 @@ public class ItemContainer {
 			self.add(a);
 			totalPrice();
 		}
-		else {
-			System.out.println("Specified Item already in container");
-		}
 	}
 	
 	public void removeItem(Item a) {
 		if (self.contains(a)) {
 			self.remove(a);
 			totalPrice();
-		}
-		else {
-			System.out.println("Requested item is not in this container");
 		}
 	}
 	
