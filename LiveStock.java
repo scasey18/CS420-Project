@@ -10,8 +10,16 @@ public class LiveStock extends Item{
 	//Such as vaccination dates or health warnings
 	String gender; //Male or Female (M or F)
 	
-	public LiveStock(String name, String animalType, String gender) {
-		super(name);
+	public LiveStock(String name, float price, int locX, int locY, int length, int width
+			,String animalType, String gender) {
+		super(name,price,locX,locY,length,width);
+		this.animalType = animalType;
+		this.gender = gender;
+	}
+	
+	public LiveStock(String name, int locX, int locY, int length, int width
+			,String animalType, String gender) {
+		super(name,locX,locY,length,width);
 		this.animalType = animalType;
 		this.gender = gender;
 	}
@@ -61,6 +69,33 @@ public class LiveStock extends Item{
 
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LiveStock other = (LiveStock) obj;
+		if (animalType == null) {
+			if (other.animalType != null)
+				return false;
+		} else if (!animalType.equals(other.animalType))
+			return false;
+		if (gender == null) {
+			if (other.gender != null)
+				return false;
+		} else if (!gender.equals(other.gender))
+			return false;
+		if (info == null) {
+			if (other.info != null)
+				return false;
+		} else if (!info.equals(other.info))
+			return false;
+		return true;
 	}
 
 }
