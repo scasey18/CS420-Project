@@ -28,9 +28,32 @@ public class Item {
 		this.width = width;
 		this.price = price;
 	}
-	
-	public Item(String name) {
-		this.name = name;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Item other = (Item) obj;
+		if (length != other.length)
+			return false;
+		if (locX != other.locX)
+			return false;
+		if (locY != other.locY)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (Float.floatToIntBits(price) != Float.floatToIntBits(other.price))
+			return false;
+		if (width != other.width)
+			return false;
+		return true;
 	}
 
 	public String getName() {
