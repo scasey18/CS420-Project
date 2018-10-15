@@ -3,7 +3,9 @@ package farming;
 import java.util.ArrayList;
 
 public class ItemContainer {
+	
 	ArrayList<Item> self = new ArrayList<Item>();
+	float total = 0;
 	String name; //holds name
 	float price; //Holds price of the container
 	int locX; //intial x
@@ -29,6 +31,22 @@ public class ItemContainer {
 		this.width = width;
 		this.price = price;
 	}
+	
+	/**
+	 * This is used for custom scanning areas defined by the farmer.
+	 * @param locX
+	 * @param locY
+	 * @param length
+	 * @param width
+	 */
+	public ItemContainer(int locX,int locY, int length, int width) {
+		this.name = "Custom";
+		this.locX = locX;
+		this.locY = locY;
+		this.length = length;
+		this.width = width;
+		this.price = 0;
+	}
 
 	public ArrayList<Item> getSelf() {
 		return self;
@@ -38,7 +56,7 @@ public class ItemContainer {
 	 * This will calculate the total price of all items in this container
 	 */
 	public void totalPrice() {
-		float total = 0;
+		total = 0;
 		for (Item a : self) {
 			total += a.getPrice();
 		}
