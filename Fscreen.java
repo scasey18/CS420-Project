@@ -1,7 +1,9 @@
-package farmProject;
+package farming;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class Fscreen {
@@ -13,7 +15,6 @@ public class Fscreen {
 		JLabel lbl = new JLabel("Add item");
 		lbl.setVisible(true);
 
-		
 		JLabel lble = new JLabel("Price");
 		lble.setVisible(true);
 		
@@ -23,7 +24,10 @@ public class Fscreen {
 		panel.add(labl); 
 		panel.add(lbl);
 		panel.add(lble);
-
+		
+		//This will be used to hold the contents of the farm
+		ArrayList<ItemContainer> containerFarm = new ArrayList<ItemContainer>();
+		ArrayList<Item> itemFarm = new ArrayList<Item>();
 		
 		String[] buttons = {"Container", "Crops", "Drone", "Equipment", "Supplies", "Livestock"};
 		
@@ -32,15 +36,13 @@ public class Fscreen {
 		cb.setVisible(true);
 		panel.add(cb);
 		
-		JButton removeButton = new JButton("REMOVE");
-		panel.add(removeButton);
-		JButton addButton = new JButton("ADD");
-		panel.add(addButton);
-		JButton updateButton = new JButton("UPDATE");
-		panel.add(updateButton);
+		JButton butn = new JButton("REMOVE");
+		panel.add(butn);
+		JButton bttn = new JButton("ADD");
+		panel.add(bttn);
+		JButton btn = new JButton("UPDATE");
+		panel.add(btn);
 		
-		
-	    
 		JFrame frame = new JFrame("Farm Project");
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,8 +53,6 @@ public class Fscreen {
 		frame.setLocation((screenSize.width/2)-frameSize/2, (screenSize.height/2) - frameSize/2);
 		
 		frame.add(panel);
-		
-		
 	}
 
 }
