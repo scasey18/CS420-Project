@@ -1,4 +1,4 @@
-package farming;
+package farmProject;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -32,20 +32,27 @@ public class Fscreen {
 		cb.setVisible(true);
 		panel.add(cb);
 		
-        JButton removeButton = new JButton("REMOVE");
+		JButton removeButton = new JButton("REMOVE");
 		panel.add(removeButton);
 		JButton addButton = new JButton("ADD");
 		panel.add(addButton);
 		JButton updateButton = new JButton("UPDATE");
 		panel.add(updateButton);
 		
+		
+	    
 		JFrame frame = new JFrame("Farm Project");
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(600, 500);
-		frame.setLocation(300, 130);
+		int frameSize = 500;
+		frame.setSize(frameSize, frameSize);
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setLocation((screenSize.width/2)-frameSize/2, (screenSize.height/2) - frameSize/2);
 		
 		frame.add(panel);
+		
+		
 	}
 
 }
