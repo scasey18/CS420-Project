@@ -20,9 +20,13 @@ public class Fscreen {
 		JLabel lbl = new JLabel("Add item");
 		lbl.setVisible(true);
 		
-		JLabel lble = new JLabel("Price Total");
+		JLabel lble = new JLabel("Price");
 		lble.setVisible(true);
 		
+		JLabel labl = new JLabel("Total");
+		labl.setVisible(true);
+		
+		panel.add(labl); 
 		panel.add(lbl);
 		panel.add(lble);
 		
@@ -33,6 +37,8 @@ public class Fscreen {
 		cb.setVisible(true);
 		panel.add(cb);
 		
+		JButton butn = new JButton("REMOVE");
+		panel.add(butn);
 		JButton bttn = new JButton("ADD");
 		panel.add(bttn);
 		JButton btn = new JButton("UPDATE");
