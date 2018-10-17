@@ -36,12 +36,12 @@ public class Fscreen {
 		cb.setVisible(true);
 		panel.add(cb);
 		
-		JButton butn = new JButton("REMOVE");
-		panel.add(butn);
-		JButton bttn = new JButton("ADD");
-		panel.add(bttn);
-		JButton btn = new JButton("UPDATE");
-		panel.add(btn);
+		JButton btnRemove = new JButton("REMOVE");
+		panel.add(btnRemove);
+		JButton btnAdd = new JButton("ADD");
+		panel.add(btnAdd);
+		JButton btnUpdate = new JButton("UPDATE");
+		panel.add(btnUpdate);
 		
 		JFrame frame = new JFrame("Farm Project");
 		frame.setVisible(true);
