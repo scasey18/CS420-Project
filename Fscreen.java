@@ -3,7 +3,6 @@ package farming;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-
 import javax.swing.*;
 
 public class Fscreen {
@@ -11,6 +10,7 @@ public class Fscreen {
 	public static void main(String[] args) {
 		
 		JPanel panel = new JPanel();
+		int frameSize = 600;
 		
 		JLabel lblAddItem = new JLabel("Add item");
 		lblAddItem.setVisible(true);
@@ -43,10 +43,32 @@ public class Fscreen {
 		JButton btnUpdate = new JButton("UPDATE");
 		panel.add(btnUpdate);
 		
+		String[] nameData = new String[100];
+		
+		final JList jl = new JList(nameData);
+		panel.add(jl);
+		jl.setPreferredSize(new Dimension(frameSize-30, frameSize-150));
+		jl.setVisible(true);
+		
+		TextField tf = new TextField();
+		
+		nameData[1] = "Test";
+		nameData[2] = "test2";
+		
+		
+		btnAdd.addActionListener(new ActionListener()
+		{
+		  public void actionPerformed(ActionEvent e)
+		  {
+			  nameData[1] = "Test2";
+			  nameData[2] = "test4";
+		  }
+		});
+		
 		JFrame frame = new JFrame("Farm Project");
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		int frameSize = 500;
+		
 		frame.setSize(frameSize, frameSize);
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
