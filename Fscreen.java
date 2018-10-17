@@ -12,18 +12,18 @@ public class Fscreen {
 		
 		JPanel panel = new JPanel();
 		
-		JLabel lbl = new JLabel("Add item");
-		lbl.setVisible(true);
+		JLabel lblAddItem = new JLabel("Add item");
+		lblAddItem.setVisible(true);
 
-		JLabel lble = new JLabel("Price");
-		lble.setVisible(true);
+		JLabel lblPrice = new JLabel("Price");
+		lblPrice.setVisible(true);
 		
-		JLabel labl = new JLabel("Total");
-		labl.setVisible(true);
+		JLabel lblTotal = new JLabel("Total");
+		lblTotal.setVisible(true);
 		
-		panel.add(labl); 
-		panel.add(lbl);
-		panel.add(lble);
+		panel.add(lblAddItem); 
+		panel.add(lblPrice);
+		panel.add(lblTotal);
 		
 		//This will be used to hold the contents of the farm
 		ArrayList<ItemContainer> containerFarm = new ArrayList<ItemContainer>();
