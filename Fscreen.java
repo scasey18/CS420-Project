@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.tree.*;
+
+import java.util.Enumeration;
 
 public class Fscreen extends JFrame{
 	
@@ -13,9 +16,9 @@ public class Fscreen extends JFrame{
 	JButton updateButton;
 	
 	JComboBox options;
-	
-	JList listOfItems;
-	static DefaultListModel defaultListModel = new DefaultListModel();
+
+	JTree tree;
+	DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("All Items");
 	
 	static JScrollPane scrollPane;
 	
@@ -42,27 +45,6 @@ public class Fscreen extends JFrame{
 		parentPanel.add(comboBox);
 		return comboBox;
 	}
-	
-	//Generic create list func
-		public static JList createList(String[] list, JPanel parentPanel) {
-			
-			for(String listElement: list) {
-				defaultListModel.addElement(listElement);
-			}
-			
-			@SuppressWarnings({ "unchecked", "rawtypes" })
-			JList jlist = new JList(defaultListModel);
-			
-			scrollPane = new JScrollPane(jlist, 
-					JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			
-			jlist.setVisible(true);
-			jlist.setFixedCellWidth(800);
-			jlist.setFixedCellHeight(30);
-			parentPanel.add(scrollPane);
-			return jlist;
-		}
 	
 	
 	public Fscreen(int width, int height) {
@@ -105,10 +87,18 @@ public class Fscreen extends JFrame{
 		addButton.addActionListener(buttonListener);
 		removeButton.addActionListener(buttonListener);
 		updateButton.addActionListener(buttonListener);
+
+		tree = new JTree(rootNode);
+		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		tree.setVisible(true);
 		
-		//This is the array of data, that will need to be an array of items eventually
-		String[] testList = {"t1","t2"};
-		listOfItems = createList(testList, test);
+		JScrollPane scroll = new JScrollPane(tree);
+		Dimension d = scroll.getPreferredSize();
+		d.width = 800;
+		d.height = 400;
+		scroll.setPreferredSize(d);
+		
+		test.add(scroll);
 		
 		//Add panel to frame
 		this.add(test);
@@ -127,6 +117,11 @@ public class Fscreen extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+            DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+            DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getModel().getRoot();
+            DefaultMutableTreeNode n;
+            DefaultMutableTreeNode child;
+           
 			//e == event
 			//e.getsource returns what obj has been clicked
 			if(e.getSource() == addButton) {
@@ -134,22 +129,46 @@ public class Fscreen extends JFrame{
 				int opt = options.getSelectedIndex();
 				switch (opt) {
 	            case 0:  
-	            	defaultListModel.add(0, "Container");
+	            	//defaultListModel.add(0, "Container");
+	            	n = new DefaultMutableTreeNode("test");
+	                child = new DefaultMutableTreeNode(n);
+	            	model.insertNodeInto(child, root, root.getChildCount());
+	                tree.scrollPathToVisible(new TreePath(child.getPath()));
 	                break;
 	            case 1: 
-	            	defaultListModel.add(0, "Crops");
+	            	//addItem("Test2", rootNode);
+	            	n = new DefaultMutableTreeNode("test2");
+	                child = new DefaultMutableTreeNode(n);
+	            	model.insertNodeInto(child, root, root.getChildCount());
+	                tree.scrollPathToVisible(new TreePath(child.getPath()));
 	            	break;
 	            case 2: 
-	            	defaultListModel.add(0, "Drone");
+	            	//addItem("Test3", rootNode);
+	            	n = new DefaultMutableTreeNode("test3");
+	                child = new DefaultMutableTreeNode(n);
+	            	model.insertNodeInto(child, root, root.getChildCount());
+	                tree.scrollPathToVisible(new TreePath(child.getPath()));
 	            	break;
 	            case 3: 
-	            	defaultListModel.add(0, "Equipment");
+	            	//addItem("Test4", rootNode);
+	            	n = new DefaultMutableTreeNode("test4");
+	                child = new DefaultMutableTreeNode(n);
+	            	model.insertNodeInto(child, root, root.getChildCount());
+	                tree.scrollPathToVisible(new TreePath(child.getPath()));
 	            	break;
 	            case 4: 
-	            	defaultListModel.add(0, "Supplies");
+	            	//addItem("Test5", rootNode);
+	            	n = new DefaultMutableTreeNode("test5");
+	                child = new DefaultMutableTreeNode(n);
+	            	model.insertNodeInto(child, root, root.getChildCount());
+	                tree.scrollPathToVisible(new TreePath(child.getPath()));
 	            	break;
 	            case 5: 
-	            	defaultListModel.add(0, "Livestock");
+	            	//addItem("Test6", rootNode);
+	            	n = new DefaultMutableTreeNode("test6");
+	                child = new DefaultMutableTreeNode(n);
+	            	model.insertNodeInto(child, root, root.getChildCount());
+	                tree.scrollPathToVisible(new TreePath(child.getPath()));
 	            	break;
 	            default: 
 	            	break;
@@ -157,8 +176,6 @@ public class Fscreen extends JFrame{
 				
 			} else if(e.getSource() == removeButton) {
 				//Remove button has been clicked
-				int s = listOfItems.getSelectedIndex();
-				defaultListModel.removeElementAt(s);
 				
 				
 			} else if(e.getSource() == updateButton) {
@@ -169,6 +186,13 @@ public class Fscreen extends JFrame{
 			
 		}
 		
+	}
+	
+	private DefaultMutableTreeNode addItem(String nodeName) {
+		
+		DefaultMutableTreeNode n = new DefaultMutableTreeNode(nodeName);
+		
+		return n;
 	}
 	
 }
