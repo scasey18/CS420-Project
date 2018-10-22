@@ -23,7 +23,7 @@ public class ItemContainer {
 		this.price = 500; //Default if price is not given
 	}
 	
-	public ItemContainer(String name, float price, int locX, int locY, int length, int width) {
+	public ItemContainer(String name, Float price, int locX, int locY, int length, int width) {
 		this.name = name;
 		this.locX = locX;
 		this.locY = locY;
@@ -134,6 +134,10 @@ public class ItemContainer {
 
 	public void setWidth(int width) {
 		this.width = width;
+	}
+	
+	public String toString() {
+		return this.name + " - Container";
 	}
 
 }
