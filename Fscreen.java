@@ -63,7 +63,7 @@ public class Fscreen extends JFrame{
 	}
 	
 	
-	public Fscreen4(int width, int height) {
+	public Fscreen(int width, int height) {
 		
 		//set window size from args
 		this.setSize(width, height);
