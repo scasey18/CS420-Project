@@ -18,7 +18,6 @@ public class Visualize {
 
 		farmView.setLocationRelativeTo(null);
 		farmView.setVisible(true);
-		farmView.setVisible(true);
         traverseTree((DefaultMutableTreeNode)model.getRoot());
         
 	}
