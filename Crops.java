@@ -12,6 +12,17 @@ public class Crops extends Item{
 		this.cropType = cropType;
 	}
 	
+	public Crops(String name, float price, int locX, int locY, int length, int width,
+			String cropType) {
+		super(name,price,locX,locY,length,width);
+		this.cropType = cropType;
+	}
+	public String toString() {
+		return name + " - Crops";
+	}
+
+	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
