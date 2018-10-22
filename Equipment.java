@@ -18,20 +18,25 @@ public class Equipment extends Item{
 		this.modelNumber = modelNumber;
 	}
 	
-	public Equipment(String name, int locX, int locY, int length, int width,
-			String equipmentType, String company, String modelNumber) {
-		super(name,locX,locY,length,width);
+	public Equipment(String name,float price,int locX, int locY, int length, int width,
+			String equipmentType, String company) {
+		super(name,price,locX,locY,length,width);
 		this.equipmentType = equipmentType;
 		this.company = company;
-		this.modelNumber = modelNumber;
+		this.modelNumber = "";
 	}
 	
-	public Equipment(String name, int locX, int locY, int length, int width,
-			String equipmentType, String company) {
-		super(name,locX,locY,length,width);
+	public Equipment(String name, float price,int locX, int locY, int length, int width,
+			String equipmentType) {
+		super(name,price,locX,locY,length,width);
 		this.equipmentType = equipmentType;
-		this.company = company;
+		this.company ="";
+		this.modelNumber = "";
 	}
+	public String toString() {
+		return name + " - Equipment";
+	}
+
 
 	@Override
 	public boolean equals(Object obj) {
