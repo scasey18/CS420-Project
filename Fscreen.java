@@ -6,7 +6,7 @@ import java.text.NumberFormat;
 import javax.swing.*;
 import javax.swing.tree.*;
 
-public class Fscreen4 extends JFrame{
+public class Fscreen extends JFrame{
 	
 	/**
 	 * 
@@ -26,7 +26,7 @@ public class Fscreen4 extends JFrame{
 	
 	public static void main(String[] args) {
 		
-		new Fscreen4(1000,600);
+		new Fscreen(1000,600);
 		
 	}
 	
