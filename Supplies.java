@@ -3,17 +3,15 @@ package farming;
 public class Supplies extends Item{
 	
 	int count; //This will hold the current amount of the the supply
-
-	public Supplies(String name, int locX, int locY, int length, int width,
-			int count) {
-		super(name, locX, locY, length, width);
-		this.count = count;
-	}
 	
 	public Supplies(String name, float price, int locX, int locY, int length, int width,
 			int count) {
 		super(name, price, locX, locY, length, width);
 		this.count = count;
+	}
+	
+	public String toString() {
+		return name + " - Supplies";
 	}
 
 	public int getCount() {
