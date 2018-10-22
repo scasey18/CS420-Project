@@ -92,14 +92,14 @@ public class Fscreen extends JFrame{
 		//Buttons for user to interact with
 		addButton = createButton("Add", mainPanel);
 		removeButton = createButton("Remove", mainPanel);
-		//updateButton = createButton("Update", mainPanel);
+		updateButton = createButton("Visualize", mainPanel);
 		
 		//Button listener class
 		buttonListener buttonListener = new buttonListener();
 		//Attach listener to buttons
 		addButton.addActionListener(buttonListener);
 		removeButton.addActionListener(buttonListener);
-		//updateButton.addActionListener(buttonListener);
+		updateButton.addActionListener(buttonListener);
 		
 
 		tree = new JTree(rootNode);
@@ -273,6 +273,9 @@ public class Fscreen extends JFrame{
             				}
             	else if(e.getSource() == removeButton) {
             		model.removeNodeFromParent((DefaultMutableTreeNode)tree.getSelectionPath().getLastPathComponent());
+            	}
+            	else if(e.getSource() == updateButton) {
+            		Visualize a = new Visualize(model);
             	}
             }
             catch(Exception NullPointerException) {
@@ -649,6 +652,4 @@ public class Fscreen extends JFrame{
 		t.setPrice(price);
 		
 	}
-
-	
 }
