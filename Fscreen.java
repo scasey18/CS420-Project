@@ -275,7 +275,8 @@ public class Fscreen extends JFrame{
             		model.removeNodeFromParent((DefaultMutableTreeNode)tree.getSelectionPath().getLastPathComponent());
             	}
             	else if(e.getSource() == updateButton) {
-            		Visualize a = new Visualize(model);
+            		new Visualize(model);
+            		JOptionPane.showMessageDialog(null,"Vizualized Farm has been generated");
             	}
             }
             catch(Exception NullPointerException) {
