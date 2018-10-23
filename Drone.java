@@ -11,6 +11,10 @@ public class Drone extends Item{
 		super(name,locX,locY,length,width);
 	}
 	
+	public Drone(String name,float price, int locX, int locY, int length, int width) {
+		super(name,price,locX,locY,length,width);
+	}
+	
 	public void addFlightPath(ItemContainer a) {
 		flightPath.add(a);
 	}
@@ -19,9 +23,15 @@ public class Drone extends Item{
 		flightPath.remove(a);
 	}
 	
+	public String toString() {
+		return name + " - Drone";
+	}
+
+	/**
 	public void addCustomFlightPath(int locX, int locY, int length, int width) {
 		flightPath.add(new ItemContainer(locX, locY, length, width));
 	}
+	**/
 	
 	public void clearFlightPath(){
 		flightPath.clear();

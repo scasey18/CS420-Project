@@ -24,6 +24,11 @@ public class LiveStock extends Item{
 		this.gender = gender;
 	}
 	
+	public String toString() {
+		return name + " - Livestock";
+	}
+
+	
 	/**
 	 * This method adds a piece of string info to an animal
 	 * @param a, the info to be added
