@@ -3,7 +3,6 @@ package farming;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.NumberFormat;
-import java.util.Enumeration;
 
 import javax.swing.*;
 import javax.swing.tree.*;
@@ -17,7 +16,7 @@ public class Fscreen extends JFrame{
 	//Want to have access to these on various methods
 	JButton addButton;
 	JButton removeButton;
-	JButton updateButton;
+	JButton visualButton;
 	
 	JComboBox<String> options;
 
@@ -88,14 +87,14 @@ public class Fscreen extends JFrame{
 		//Buttons for user to interact with
 		addButton = createButton("Add", mainPanel);
 		removeButton = createButton("Remove", mainPanel);
-		updateButton = createButton("Visualize", mainPanel);
+		visualButton = createButton("Visualize", mainPanel);
 		
 		//Button listener class
 		buttonListener buttonListener = new buttonListener();
 		//Attach listener to buttons
 		addButton.addActionListener(buttonListener);
 		removeButton.addActionListener(buttonListener);
-		updateButton.addActionListener(buttonListener);
+		visualButton.addActionListener(buttonListener);
 		
 		
 
@@ -115,7 +114,21 @@ public class Fscreen extends JFrame{
 		    public void mousePressed(MouseEvent e) {
 		    	if(e.getClickCount() == 2) {
 		    		DefaultMutableTreeNode selPath = (DefaultMutableTreeNode)tree.getPathForLocation(e.getX(), e.getY()).getLastPathComponent();
-		    		showInfo(selPath.getUserObject());
+		    		String b = selPath.getUserObject().getClass().toString();
+		    		switch (b) {
+		    		case "class farming.ItemContainer":
+		    			((ItemContainer)selPath.getUserObject()).showInfo(); break;
+		    		case "class farming.Equipment":
+		    			((Equipment)selPath.getUserObject()).showInfo(); break;
+		    		case "class farming.Drone":
+		    			((Drone)selPath.getUserObject()).showInfo(); break;
+		    		case "class farming.Crops":
+		    			((Crops)selPath.getUserObject()).showInfo(); break;
+		    		case "class farming.LiveStock":
+		    			((LiveStock)selPath.getUserObject()).showInfo(); break;
+		    		case "class farming.Supplies":
+		    			((Supplies)selPath.getUserObject()).showInfo(); break;
+		    		}
 		    	}
 		        
 		    }
@@ -155,20 +168,15 @@ public class Fscreen extends JFrame{
             				Object[] message = {
             						"All of these fields are required for item creation",
             						"Name:" , name,
-            						"X location:", locX,
-            						"Y location:", locY,
-            						"Length:", length,
-            						"Width:", width,
-            						"Price:", price,
-            						"Market Price:", Mprice
+            						"X location:", locX,"Y location:", locY,
+            						"Length:", length,"Width:", width,
+            						"Price:", price, "Market Price:", Mprice
             				};
             				Object[] message2 = {
             						"All of these fields are required for item creation",
             						"Name:" , name,
-            						"X location:", locX,
-            						"Y location:", locY,
-            						"Length:", length,
-            						"Width:", width,
+            						"X location:", locX, "Y location:", locY,
+            						"Length:", length, "Width:", width,
             						"Price:", price,
             				};
             				Object[] message3 = {};
@@ -182,13 +190,21 @@ public class Fscreen extends JFrame{
             				int option = JOptionPane.showConfirmDialog(null, message3, "Create "+
             						options.getSelectedItem(), JOptionPane.OK_CANCEL_OPTION);
             				
-            				if (option == JOptionPane.OK_OPTION && !name.getText().trim().equals("") && 
+            				if ((option == JOptionPane.OK_OPTION && !name.getText().trim().equals("") && 
         							!locX.getText().trim().equals("")&&
         							!locY.getText().trim().equals("")&&
         							!width.getText().trim().equals("")&&
         							!length.getText().trim().equals("") &&
         							!price.getText().trim().equals("") && 
-        							!Mprice.getText().trim().equals(""))
+        							!Mprice.getText().trim().equals("")) || 
+            						(option == JOptionPane.OK_OPTION && 
+        							options.getSelectedItem() == "Container" &&
+        							!name.getText().trim().equals("") && 
+        							!locX.getText().trim().equals("")&&
+        							!locY.getText().trim().equals("")&&
+        							!width.getText().trim().equals("")&&
+        							!length.getText().trim().equals("") &&
+        							!price.getText().trim().equals("")))
             				{
             						switch(String.valueOf(options.getSelectedItem())) {
             	        
@@ -299,7 +315,7 @@ public class Fscreen extends JFrame{
             	else if(e.getSource() == removeButton) {
             		model.removeNodeFromParent((DefaultMutableTreeNode)tree.getSelectionPath().getLastPathComponent());
             	}
-            	else if(e.getSource() == updateButton) {
+            	else if(e.getSource() == visualButton) {
             		new Visualize(model);
             		JOptionPane.showMessageDialog(null,"Vizualized Farm has been generated");
             	}
@@ -399,252 +415,5 @@ public class Fscreen extends JFrame{
     		JOptionPane.showMessageDialog(null,currentObject + " was not added because all fields were not filled");
     	}
     	return null;
-	}
-	
-	public static void showInfo(Object a) {
-		int result;
-		JTextField name = new JTextField();
-		JTextField locX = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField locY = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField length = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField width = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField price = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField mPrice = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField equipmentType = new JTextField();
-		JTextField company = new JTextField();
-		JTextField modelNumber = new JTextField();
-		JTextField cropType = new JTextField();
-		JTextField animalType = new JTextField();
-		JTextField animalGender = new JTextField();
-		JTextField count = new JFormattedTextField(NumberFormat.getNumberInstance());
-		
-		switch(a.getClass().toString()) {
-		case "class farming.Drone":
-			Drone drone = (Drone) a;
-
-			name.setText(drone.getName());
-			locX.setText(Integer.toString(drone.getLocX()));
-			locY.setText(Integer.toString(drone.getLocY()));
-			length.setText(Integer.toString(drone.getLength()));
-			width.setText(Integer.toString(drone.getWidth()));
-			price.setText(Float.toString(drone.getPrice()));
-			mPrice.setText(Integer.toString(drone.getMarketValue()));
-			
-			Object[] droneMessage = {
-					"All of these fields are required for item creation",
-					"Name:" , name,
-					"X location:", locX,
-					"Y location:", locY,
-					"Length:", length,
-					"Width:", width,
-					"Price:", price,
-					"Market Price: ", mPrice
-			};
-			
-			result = JOptionPane.showConfirmDialog(null, droneMessage, "Create "+
-					drone.getName(), JOptionPane.OK_CANCEL_OPTION);
-			
-			if (result == JOptionPane.OK_OPTION) {
-				drone.updateInfo(name.getText(), 
-						Float.valueOf(price.getText()), 
-						Integer.valueOf(locX.getText()), 
-						Integer.valueOf(locY.getText()), 
-						Integer.valueOf(length.getText()), 
-						Integer.valueOf(width.getText()), 
-						Integer.valueOf(mPrice.getText()));
-			}
-			break;
-		case "class farming.Crops":
-			Crops crop = (Crops) a;
-			name.setText(crop.getName());
-			locX.setText(Integer.toString(crop.getLocX()));
-			locY.setText(Integer.toString(crop.getLocY()));
-			length.setText(Integer.toString(crop.getLength()));
-			width.setText(Integer.toString(crop.getWidth()));
-			price.setText(Float.toString(crop.getPrice()));
-			mPrice.setText(Integer.toString(crop.getMarketValue()));
-			cropType.setText(crop.getCropType());
-			
-			Object[] cropMessage = {
-					"All of these fields are required for item creation",
-					"Name:" , name,
-					"X location:", locX,
-					"Y location:", locY,
-					"Length:", length,
-					"Width:", width,
-					"Price:", price,
-					"Market Price:", mPrice,
-					"Crop Type:", cropType
-			};
-			
-			result = JOptionPane.showConfirmDialog(null, cropMessage, "Create "+
-					crop.getName(), JOptionPane.OK_CANCEL_OPTION);
-			
-			if (result == JOptionPane.OK_OPTION) {
-				crop.updateInfo(name.getText(), 
-						Float.valueOf(price.getText()), 
-						Integer.valueOf(locX.getText()), 
-						Integer.valueOf(locY.getText()), 
-						Integer.valueOf(length.getText()), 
-						Integer.valueOf(width.getText()), 
-						cropType.getText(),
-						Integer.valueOf(mPrice.getText()));
-			}
-			break;
-		case "class farming.Equipment":
-			Equipment equip = (Equipment) a;
-			
-			name.setText(equip.getName());
-			locX.setText(Integer.toString(equip.getLocX()));
-			locY.setText(Integer.toString(equip.getLocY()));
-			length.setText(Integer.toString(equip.getLength()));
-			width.setText(Integer.toString(equip.getWidth()));
-			price.setText(Integer.toString((int) equip.getPrice()));
-			mPrice.setText(Integer.toString(equip.getMarketValue()));
-			equipmentType.setText(equip.getEquipmentType());
-			company.setText(equip.getCompany());
-			modelNumber.setText(equip.getModelNumber());
-			
-			Object[] equipMessage = {
-					"All of these fields are required for item creation",
-					"Name:" , name,
-					"X location:", locX,
-					"Y location:", locY,
-					"Length:", length,
-					"Width:", width,
-					"Price:", price,
-					"Market Price:", mPrice,
-					"Type of Equipment: " + equipmentType,
-	    			"Company Name: " + company,
-	    			"Model Number: " + modelNumber
-			};
-			
-			result = JOptionPane.showConfirmDialog(null, equipMessage, "Create "+
-					equip.getName(), JOptionPane.OK_CANCEL_OPTION);
-			
-			if (result == JOptionPane.OK_OPTION) {
-				equip.updateInfo(name.getText(), 
-						Float.valueOf(price.getText()),
-						Integer.valueOf(locX.getText()),
-						Integer.valueOf(locY.getText()), 
-						Integer.valueOf(length.getText()), 
-						Integer.valueOf(width.getText()), 
-						Integer.valueOf(mPrice.getText()),
-						equipmentType.getText(), 
-						company.getText(), 
-						modelNumber.getText());
-			}
-			break;
-		case "class farming.ItemContainer":
-			ItemContainer barn = (ItemContainer) a;
-			
-			name.setText(barn.getName());
-			locX.setText(Integer.toString(barn.getLocX()));
-			locY.setText(Integer.toString(barn.getLocY()));
-			length.setText(Integer.toString(barn.getLength()));
-			width.setText(Integer.toString(barn.getWidth()));
-			price.setText(Integer.toString((int) barn.getPrice()));
-			
-			Object[] containerMessage = {
-					"All of these fields are required for item creation",
-					"Name:" , name,
-					"X location:", locX,
-					"Y location:", locY,
-					"Length:", length,
-					"Width:", width,
-					"Price:", price
-			};
-			
-			result = JOptionPane.showConfirmDialog(null, containerMessage, "Create "+
-					barn.getName(), JOptionPane.OK_CANCEL_OPTION);
-			
-			if (result == JOptionPane.OK_OPTION) {
-				barn.updateInfo(name.getText(), 
-						Integer.valueOf(locX.getText()), 
-						Integer.valueOf(locY.getText()), 
-						Integer.valueOf(length.getText()), 
-						Integer.valueOf(width.getText()), 
-						Float.valueOf(price.getText()));
-			}
-			break;
-		case "class farming.LiveStock":
-			LiveStock animal = (LiveStock) a;
-
-			name.setText(animal.getName());
-			locX.setText(Integer.toString(animal.getLocX()));
-			locY.setText(Integer.toString(animal.getLocY()));
-			length.setText(Integer.toString(animal.getLength()));
-			width.setText(Integer.toString(animal.getWidth()));
-			price.setText(Float.toString(animal.getPrice()));
-			mPrice.setText(Integer.toString(animal.getMarketValue()));
-			animalType.setText(animal.getAnimalType());
-			animalGender.setText(animal.getGender());
-			
-			Object[] animalMessage = {
-					"All of these fields are required for item creation",
-					"Name:" , name,
-					"X location:", locX,
-					"Y location:", locY,
-					"Length:", length,
-					"Width:", width,
-					"Price:", price,
-					"Market Value:", mPrice,
-					"Animal Type:", animalType,
-					"Gender:", animalGender
-			};
-			
-			result = JOptionPane.showConfirmDialog(null, animalMessage, "Create "+
-					animal.getName(), JOptionPane.OK_CANCEL_OPTION);
-			
-			if (result == JOptionPane.OK_OPTION) {
-				animal.updateInfo(name.getText(), 
-						Float.valueOf(price.getText()), 
-						Integer.valueOf(locX.getText()), 
-						Integer.valueOf(locY.getText()), 
-						Integer.valueOf(length.getText()), 
-						Integer.valueOf(width.getText()), 
-						animalType.getText(), 
-						animalGender.getText(),
-						Integer.valueOf(mPrice.getText()));
-			}
-			break;
-		case "class farming.Supplies":
-			Supplies supply = (Supplies) a;
-			name.setText(supply.getName());
-			locX.setText(Integer.toString(supply.getLocX()));
-			locY.setText(Integer.toString(supply.getLocY()));
-			length.setText(Integer.toString(supply.getLength()));
-			width.setText(Integer.toString(supply.getWidth()));
-			price.setText(Integer.toString((int) supply.getPrice()));
-			mPrice.setText(Integer.toString(supply.getMarketValue()));
-			count.setText(Integer.toString(supply.getCount()) );
-			
-			Object[] supplyMessage = {
-					"All of these fields are required for item creation",
-					"Name:" , name,
-					"X location:", locX,
-					"Y location:", locY,
-					"Length:", length,
-					"Width:", width,
-					"Price:", price,
-					"Market Value:", mPrice,
-					"Count", count
-			};
-			
-			result = JOptionPane.showConfirmDialog(null, supplyMessage, "Create "+
-					supply.getName(), JOptionPane.OK_CANCEL_OPTION);
-			
-			if (result == JOptionPane.OK_OPTION) {
-				supply.updateInfo(name.getText(), 
-						Float.valueOf(price.getText()), 
-						Integer.valueOf(locX.getText()), 
-						Integer.valueOf(locY.getText()), 
-						Integer.valueOf(length.getText()), 
-						Integer.valueOf(width.getText()), 
-						Integer.valueOf(count.getText()) ,
-						Integer.valueOf(mPrice.getText()));
-			}
-		}
-		
 	}
 }
