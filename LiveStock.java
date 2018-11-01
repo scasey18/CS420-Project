@@ -11,15 +11,8 @@ public class LiveStock extends Item{
 	String gender; //Male or Female (M or F)
 	
 	public LiveStock(String name, float price, int locX, int locY, int length, int width
-			,String animalType, String gender) {
-		super(name,price,locX,locY,length,width);
-		this.animalType = animalType;
-		this.gender = gender;
-	}
-	
-	public LiveStock(String name, int locX, int locY, int length, int width
-			,String animalType, String gender) {
-		super(name,locX,locY,length,width);
+			,String animalType, String gender, int marketValue) {
+		super(name,price,locX,locY,length,width, marketValue);
 		this.animalType = animalType;
 		this.gender = gender;
 	}
@@ -27,7 +20,19 @@ public class LiveStock extends Item{
 	public String toString() {
 		return name + " - Livestock";
 	}
-
+	
+	public void updateInfo(String name, float price, int locX, int locY, int length, int width
+			,String animalType, String gender, int marketValue) {
+		this.setName(name);
+		this.setPrice(price);
+		this.setLocX(locX);
+		this.setLocY(locY);
+		this.setLength(length);
+		this.setWidth(width);
+		this.setAnimalType(animalType);
+		this.setGender(gender);
+		this.setMarketValue(marketValue);
+	}
 	
 	/**
 	 * This method adds a piece of string info to an animal
