@@ -10,29 +10,30 @@ public class Equipment extends Item{
 	String company; //John Deere, etc.
 	String modelNumber; //MX993, A113, etc. (Sometimes model numbers have letters)
 	
-	public Equipment(String name, float price, int locX, int locY, int length, int width,
+	public Equipment(String name, float price, int locX, int locY, int length, int width,int marketValue,
 			String equipmentType, String company, String modelNumber) {
-		super(name,price,locX,locY,length,width);
+		super(name,price,locX,locY,length,width,marketValue);
 		this.equipmentType = equipmentType;
 		this.company = company;
 		this.modelNumber = modelNumber;
 	}
 	
 	public Equipment(String name,float price,int locX, int locY, int length, int width,
-			String equipmentType, String company) {
-		super(name,price,locX,locY,length,width);
+			int marketValue, String equipmentType, String company) {
+		super(name,price,locX,locY,length,width,marketValue);
 		this.equipmentType = equipmentType;
 		this.company = company;
 		this.modelNumber = "";
 	}
 	
 	public Equipment(String name, float price,int locX, int locY, int length, int width,
-			String equipmentType) {
-		super(name,price,locX,locY,length,width);
+			int marketValue, String equipmentType) {
+		super(name,price,locX,locY,length,width,marketValue);
 		this.equipmentType = equipmentType;
 		this.company ="";
 		this.modelNumber = "";
 	}
+	
 	public String toString() {
 		return name + " - Equipment";
 	}
@@ -68,6 +69,20 @@ public class Equipment extends Item{
 		} else if (!modelNumber.equals(other.modelNumber))
 			return false;
 		return true;
+	}
+	
+	public void updateInfo(String name, float price, int locX, int locY, int length, int width,int marketValue,
+			String equipmentType, String company, String modelNumber) {
+		this.setName(name);
+		this.setPrice(price);
+		this.setLocX(locX);
+		this.setLocY(locY);
+		this.setLength(length);
+		this.setWidth(width);
+		this.setMarketValue(marketValue);
+		this.setEquipmentType(equipmentType);
+		this.setCompany(company);
+		this.setModelNumber(modelNumber);
 	}
 
 	/**
