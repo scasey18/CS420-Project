@@ -3,6 +3,8 @@ package farming;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.NumberFormat;
+import java.util.Enumeration;
+
 import javax.swing.*;
 import javax.swing.tree.*;
 
@@ -20,7 +22,7 @@ public class Fscreen extends JFrame{
 	JComboBox<String> options;
 
 	JTree tree;
-	DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("All Items");
+	DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(new DefaultMutableTreeNode(new ItemContainer("root")));
 	
 	static JScrollPane scrollPane;
 	
@@ -80,12 +82,6 @@ public class Fscreen extends JFrame{
 		//List of the buttons we want to make
 		String[] buttons = {"Container", "Crops", "Drone", "Equipment", "Supplies", "Livestock"};
 		
-		//createLabel("Add Item", test);
-		
-		//createLabel("Price",test);
-		
-		//createLabel("Total",test);
-		
 		//Combo box for options for user to add
 		options = createComboBox(buttons, mainPanel);
 		
@@ -101,21 +97,12 @@ public class Fscreen extends JFrame{
 		removeButton.addActionListener(buttonListener);
 		updateButton.addActionListener(buttonListener);
 		
+		
 
 		tree = new JTree(rootNode);
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.setVisible(true);
-		MouseListener ml = new MouseAdapter() {
-		    public void mousePressed(MouseEvent e) {
-		    	if(e.getClickCount() == 2) {
-		    		DefaultMutableTreeNode selPath = (DefaultMutableTreeNode)tree.getPathForLocation(e.getX(), e.getY()).getLastPathComponent();
-		    		showInfo(selPath.getUserObject());
-		    		
-		    	}
-		        
-		    }
-		};
-		tree.addMouseListener(ml);
+		
 		JScrollPane scroll = new JScrollPane(tree);
 		Dimension d = scroll.getPreferredSize();
 		d.width = 800;
@@ -124,6 +111,16 @@ public class Fscreen extends JFrame{
 		
 		mainPanel.add(scroll);
 		
+		MouseListener ml = new MouseAdapter() {
+		    public void mousePressed(MouseEvent e) {
+		    	if(e.getClickCount() == 2) {
+		    		DefaultMutableTreeNode selPath = (DefaultMutableTreeNode)tree.getPathForLocation(e.getX(), e.getY()).getLastPathComponent();
+		    		showInfo(selPath.getUserObject());
+		    	}
+		        
+		    }
+		};
+		tree.addMouseListener(ml);
 		//Add panel to frame
 		this.add(mainPanel);
 		//make window visible, not true by default
@@ -153,6 +150,8 @@ public class Fscreen extends JFrame{
             				JTextField length = new JFormattedTextField(NumberFormat.getNumberInstance());
             				JTextField width = new JFormattedTextField(NumberFormat.getNumberInstance());
             				JTextField price = new JFormattedTextField(NumberFormat.getNumberInstance());
+            				JTextField Mprice = new JFormattedTextField(NumberFormat.getNumberInstance());
+           
             				Object[] message = {
             						"All of these fields are required for item creation",
             						"Name:" , name,
@@ -160,20 +159,41 @@ public class Fscreen extends JFrame{
             						"Y location:", locY,
             						"Length:", length,
             						"Width:", width,
-            						"Price:", price
+            						"Price:", price,
+            						"Market Price:", Mprice
             				};
-
-            				int option = JOptionPane.showConfirmDialog(null, message, "Create "+
+            				Object[] message2 = {
+            						"All of these fields are required for item creation",
+            						"Name:" , name,
+            						"X location:", locX,
+            						"Y location:", locY,
+            						"Length:", length,
+            						"Width:", width,
+            						"Price:", price,
+            				};
+            				Object[] message3 = {};
+            				if (options.getSelectedItem() == "Container") {
+            					message3 = message2;
+            				}
+            				else {
+            					message3 = message;
+            				}
+            				
+            				int option = JOptionPane.showConfirmDialog(null, message3, "Create "+
             						options.getSelectedItem(), JOptionPane.OK_CANCEL_OPTION);
+            				
             				if (option == JOptionPane.OK_OPTION && !name.getText().trim().equals("") && 
         							!locX.getText().trim().equals("")&&
         							!locY.getText().trim().equals("")&&
         							!width.getText().trim().equals("")&&
         							!length.getText().trim().equals("") &&
-        							!price.getText().trim().equals("")) {
+        							!price.getText().trim().equals("") && 
+        							!Mprice.getText().trim().equals(""))
+            				{
             						switch(String.valueOf(options.getSelectedItem())) {
             	        
-            						case "Container": child = new DefaultMutableTreeNode(new ItemContainer(name.getText(),
+            						case "Container": child = new DefaultMutableTreeNode(
+            								new ItemContainer(name.getText(),
             								Float.valueOf(price.getText()),
             								Integer.valueOf(locX.getText()),
             								Integer.valueOf(locY.getText()),
@@ -194,7 +214,8 @@ public class Fscreen extends JFrame{
             												Integer.valueOf(locY.getText()),
             												Integer.valueOf(length.getText()),
             												Integer.valueOf(width.getText()),
-            												x
+            												x,
+            												Integer.valueOf(Mprice.getText())
             												),false);
             							}
             							break;
@@ -205,7 +226,8 @@ public class Fscreen extends JFrame{
             								Integer.valueOf(locX.getText()),
             								Integer.valueOf(locY.getText()),
             								Integer.valueOf(length.getText()),
-            								Integer.valueOf(width.getText())
+            								Integer.valueOf(width.getText()),
+            								Integer.valueOf(Mprice.getText())
             								),false); 
             								break;
         	            	
@@ -221,6 +243,7 @@ public class Fscreen extends JFrame{
             										Integer.valueOf(locY.getText()),
             										Integer.valueOf(length.getText()),
             										Integer.valueOf(width.getText()),
+            										Integer.valueOf(Mprice.getText()),
             										a[0],a[1],a[2]),false);
             							}
             							break;
@@ -234,7 +257,8 @@ public class Fscreen extends JFrame{
                     								Integer.valueOf(locY.getText()),
                     								Integer.valueOf(length.getText()),
                     								Integer.valueOf(width.getText()),
-                    								a1),false); 
+                    								a1, 
+                    								Integer.valueOf(Mprice.getText())),false); 
             							}
             							else {
             								
@@ -250,7 +274,8 @@ public class Fscreen extends JFrame{
                 									Integer.valueOf(locY.getText()),
                 									Integer.valueOf(length.getText()),
                 									Integer.valueOf(width.getText()),
-                									answer[0],answer[1]), false); 
+                									answer[0],answer[1], 
+                									Integer.valueOf(Mprice.getText())), false); 
             							}
             							break;
         	            	
@@ -384,6 +409,7 @@ public class Fscreen extends JFrame{
 		JTextField length = new JFormattedTextField(NumberFormat.getNumberInstance());
 		JTextField width = new JFormattedTextField(NumberFormat.getNumberInstance());
 		JTextField price = new JFormattedTextField(NumberFormat.getNumberInstance());
+		JTextField mPrice = new JFormattedTextField(NumberFormat.getNumberInstance());
 		JTextField equipmentType = new JTextField();
 		JTextField company = new JTextField();
 		JTextField modelNumber = new JTextField();
@@ -401,7 +427,8 @@ public class Fscreen extends JFrame{
 			locY.setText(Integer.toString(drone.getLocY()));
 			length.setText(Integer.toString(drone.getLength()));
 			width.setText(Integer.toString(drone.getWidth()));
-			price.setText(Integer.toString((int) drone.getPrice()));
+			price.setText(Float.toString(drone.getPrice()));
+			mPrice.setText(Integer.toString(drone.getMarketValue()));
 			
 			Object[] droneMessage = {
 					"All of these fields are required for item creation",
@@ -411,15 +438,20 @@ public class Fscreen extends JFrame{
 					"Length:", length,
 					"Width:", width,
 					"Price:", price,
-					"Crop Type:", cropType
+					"Market Price: ", mPrice
 			};
 			
 			result = JOptionPane.showConfirmDialog(null, droneMessage, "Create "+
 					drone.getName(), JOptionPane.OK_CANCEL_OPTION);
 			
 			if (result == JOptionPane.OK_OPTION) {
-				updateItem(drone, name.getText(), Integer.valueOf(locX.getText()), Integer.valueOf(locY.getText()), 
-						Integer.valueOf(length.getText()), Integer.valueOf(width.getText()), Integer.valueOf(price.getText()));
+				drone.updateInfo(name.getText(), 
+						Float.valueOf(price.getText()), 
+						Integer.valueOf(locX.getText()), 
+						Integer.valueOf(locY.getText()), 
+						Integer.valueOf(length.getText()), 
+						Integer.valueOf(width.getText()), 
+						Integer.valueOf(mPrice.getText()));
 			}
 			break;
 		case "class farming.Crops":
@@ -429,7 +461,8 @@ public class Fscreen extends JFrame{
 			locY.setText(Integer.toString(crop.getLocY()));
 			length.setText(Integer.toString(crop.getLength()));
 			width.setText(Integer.toString(crop.getWidth()));
-			price.setText(Integer.toString((int) crop.getPrice()));
+			price.setText(Float.toString(crop.getPrice()));
+			mPrice.setText(Integer.toString(crop.getMarketValue()));
 			cropType.setText(crop.getCropType());
 			
 			Object[] cropMessage = {
@@ -440,6 +473,7 @@ public class Fscreen extends JFrame{
 					"Length:", length,
 					"Width:", width,
 					"Price:", price,
+					"Market Price:", mPrice,
 					"Crop Type:", cropType
 			};
 			
@@ -447,8 +481,14 @@ public class Fscreen extends JFrame{
 					crop.getName(), JOptionPane.OK_CANCEL_OPTION);
 			
 			if (result == JOptionPane.OK_OPTION) {
-				updateItem(crop, name.getText(), Integer.valueOf(locX.getText()), Integer.valueOf(locY.getText()), 
-						Integer.valueOf(length.getText()), Integer.valueOf(width.getText()), Integer.valueOf(price.getText()), cropType.getText());
+				crop.updateInfo(name.getText(), 
+						Float.valueOf(price.getText()), 
+						Integer.valueOf(locX.getText()), 
+						Integer.valueOf(locY.getText()), 
+						Integer.valueOf(length.getText()), 
+						Integer.valueOf(width.getText()), 
+						cropType.getText(),
+						Integer.valueOf(mPrice.getText()));
 			}
 			break;
 		case "class farming.Equipment":
@@ -460,6 +500,7 @@ public class Fscreen extends JFrame{
 			length.setText(Integer.toString(equip.getLength()));
 			width.setText(Integer.toString(equip.getWidth()));
 			price.setText(Integer.toString((int) equip.getPrice()));
+			mPrice.setText(Integer.toString(equip.getMarketValue()));
 			equipmentType.setText(equip.getEquipmentType());
 			company.setText(equip.getCompany());
 			modelNumber.setText(equip.getModelNumber());
@@ -472,6 +513,7 @@ public class Fscreen extends JFrame{
 					"Length:", length,
 					"Width:", width,
 					"Price:", price,
+					"Market Price:", mPrice,
 					"Type of Equipment: " + equipmentType,
 	    			"Company Name: " + company,
 	    			"Model Number: " + modelNumber
@@ -481,9 +523,16 @@ public class Fscreen extends JFrame{
 					equip.getName(), JOptionPane.OK_CANCEL_OPTION);
 			
 			if (result == JOptionPane.OK_OPTION) {
-				updateItem(equip, name.getText(), Integer.valueOf(locX.getText()), Integer.valueOf(locY.getText()), 
-						Integer.valueOf(length.getText()), Integer.valueOf(width.getText()), Integer.valueOf(price.getText()), 
-						equipmentType.getText(), company.getText(), modelNumber.getText());
+				equip.updateInfo(name.getText(), 
+						Float.valueOf(price.getText()),
+						Integer.valueOf(locX.getText()),
+						Integer.valueOf(locY.getText()), 
+						Integer.valueOf(length.getText()), 
+						Integer.valueOf(width.getText()), 
+						Integer.valueOf(mPrice.getText()),
+						equipmentType.getText(), 
+						company.getText(), 
+						modelNumber.getText());
 			}
 			break;
 		case "class farming.ItemContainer":
@@ -510,8 +559,12 @@ public class Fscreen extends JFrame{
 					barn.getName(), JOptionPane.OK_CANCEL_OPTION);
 			
 			if (result == JOptionPane.OK_OPTION) {
-				updateItem(barn, name.getText(), Integer.valueOf(locX.getText()), Integer.valueOf(locY.getText()), 
-						Integer.valueOf(length.getText()), Integer.valueOf(width.getText()), Integer.valueOf(price.getText()));
+				barn.updateInfo(name.getText(), 
+						Integer.valueOf(locX.getText()), 
+						Integer.valueOf(locY.getText()), 
+						Integer.valueOf(length.getText()), 
+						Integer.valueOf(width.getText()), 
+						Float.valueOf(price.getText()));
 			}
 			break;
 		case "class farming.LiveStock":
@@ -522,7 +575,8 @@ public class Fscreen extends JFrame{
 			locY.setText(Integer.toString(animal.getLocY()));
 			length.setText(Integer.toString(animal.getLength()));
 			width.setText(Integer.toString(animal.getWidth()));
-			price.setText(Integer.toString((int) animal.getPrice()));
+			price.setText(Float.toString(animal.getPrice()));
+			mPrice.setText(Integer.toString(animal.getMarketValue()));
 			animalType.setText(animal.getAnimalType());
 			animalGender.setText(animal.getGender());
 			
@@ -534,28 +588,35 @@ public class Fscreen extends JFrame{
 					"Length:", length,
 					"Width:", width,
 					"Price:", price,
-					"Animal Type", animalType,
-					"Gender", animalGender
+					"Market Value:", mPrice,
+					"Animal Type:", animalType,
+					"Gender:", animalGender
 			};
 			
 			result = JOptionPane.showConfirmDialog(null, animalMessage, "Create "+
 					animal.getName(), JOptionPane.OK_CANCEL_OPTION);
 			
 			if (result == JOptionPane.OK_OPTION) {
-				updateItem(animal, name.getText(), Integer.valueOf(locX.getText()), Integer.valueOf(locY.getText()), 
-						Integer.valueOf(length.getText()), Integer.valueOf(width.getText()), Integer.valueOf(price.getText()), 
-						animalType.getText(), animalGender.getText());
+				animal.updateInfo(name.getText(), 
+						Float.valueOf(price.getText()), 
+						Integer.valueOf(locX.getText()), 
+						Integer.valueOf(locY.getText()), 
+						Integer.valueOf(length.getText()), 
+						Integer.valueOf(width.getText()), 
+						animalType.getText(), 
+						animalGender.getText(),
+						Integer.valueOf(mPrice.getText()));
 			}
 			break;
 		case "class farming.Supplies":
 			Supplies supply = (Supplies) a;
-
 			name.setText(supply.getName());
 			locX.setText(Integer.toString(supply.getLocX()));
 			locY.setText(Integer.toString(supply.getLocY()));
 			length.setText(Integer.toString(supply.getLength()));
 			width.setText(Integer.toString(supply.getWidth()));
 			price.setText(Integer.toString((int) supply.getPrice()));
+			mPrice.setText(Integer.toString(supply.getMarketValue()));
 			count.setText(Integer.toString(supply.getCount()) );
 			
 			Object[] supplyMessage = {
@@ -566,6 +627,7 @@ public class Fscreen extends JFrame{
 					"Length:", length,
 					"Width:", width,
 					"Price:", price,
+					"Market Value:", mPrice,
 					"Count", count
 			};
 			
@@ -573,84 +635,16 @@ public class Fscreen extends JFrame{
 					supply.getName(), JOptionPane.OK_CANCEL_OPTION);
 			
 			if (result == JOptionPane.OK_OPTION) {
-				updateItem(supply, name.getText(), Integer.valueOf(locX.getText()), Integer.valueOf(locY.getText()), 
-						Integer.valueOf(length.getText()), Integer.valueOf(width.getText()), Integer.valueOf(price.getText()), Integer.valueOf(count.getText()) );
+				supply.updateInfo(name.getText(), 
+						Float.valueOf(price.getText()), 
+						Integer.valueOf(locX.getText()), 
+						Integer.valueOf(locY.getText()), 
+						Integer.valueOf(length.getText()), 
+						Integer.valueOf(width.getText()), 
+						Integer.valueOf(count.getText()) ,
+						Integer.valueOf(mPrice.getText()));
 			}
 		}
-		
-	}
-
-	private static void updateItem(Supplies t, String name, Integer locX, Integer locY, Integer length,
-			Integer width, Integer price, Integer count) {
-		//Update vars of supply
-		t.setLength(length);
-		t.setWidth(width);
-		t.setLocX(locX);
-		t.setLocY(locY);
-		t.setName(name);
-		t.setPrice(price);
-		t.setCount(count);
-	}
-
-	private static void updateItem(LiveStock t, String name, Integer locX, Integer locY, Integer length,
-			Integer width, Integer price, String animalType, String gender) {
-		//Update vars of livestock
-		t.setLength(length);
-		t.setWidth(width);
-		t.setLocX(locX);
-		t.setLocY(locY);
-		t.setName(name);
-		t.setPrice(price);
-		t.setAnimalType(animalType);
-		t.setGender(gender);
-	}
-
-	private static void updateItem(Item t, String name, Integer locX, Integer locY, Integer length,
-			Integer width, Integer price) {
-		//Update vars of item
-		t.setLength(length);
-		t.setWidth(width);
-		t.setLocX(locX);
-		t.setLocY(locY);
-		t.setName(name);
-		t.setPrice(price);
-	}
-
-	private static void updateItem(Crops t, String name, Integer locX, Integer locY, Integer length,
-			Integer width, Integer price, String cropType) {
-		//Update vars of crop
-		t.setLength(length);
-		t.setWidth(width);
-		t.setLocX(locX);
-		t.setLocY(locY);
-		t.setName(name);
-		t.setPrice(price);
-		t.setCropType(cropType);
-	}
-
-	private static void updateItem(Equipment t, String name, Integer locX, Integer locY, Integer length,
-			Integer width, Integer price, String equipmentType, String company, String modelNumber) {
-		//Update vars of equip
-		t.setLength(length);
-		t.setWidth(width);
-		t.setLocX(locX);
-		t.setLocY(locY);
-		t.setName(name);
-		t.setPrice(price);
-		t.setEquipmentType(equipmentType);
-		t.setCompany(company);
-		t.setModelNumber(modelNumber);
-	}
-
-	private static void updateItem(ItemContainer t, String name, int locX, int locY, int length, int width, int price) {
-		//Update vars of itemcontainer
-		t.setName(name);
-		t.setLength(length);
-		t.setWidth(width);
-		t.setLocX(locX);
-		t.setLocY(locY);
-		t.setName(name);
-		t.setPrice(price);
 		
 	}
 }
