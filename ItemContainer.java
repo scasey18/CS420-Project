@@ -14,15 +14,6 @@ public class ItemContainer {
 	int width; //width value
 	float containerPrice; //holds total price for everything in the container
 	
-	public ItemContainer(String name, int locX, int locY, int length, int width) {
-		this.name = name;
-		this.locX = locX;
-		this.locY = locY;
-		this.length = length;
-		this.width = width;
-		this.price = 500; //Default if price is not given
-	}
-	
 	public ItemContainer(String name, Float price, int locX, int locY, int length, int width) {
 		this.name = name;
 		this.locX = locX;
@@ -32,24 +23,22 @@ public class ItemContainer {
 		this.price = price;
 	}
 	
-	/**
-	 * This is used for custom scanning areas defined by the farmer.
-	 * @param locX
-	 * @param locY
-	 * @param length
-	 * @param width
-	 */
-	public ItemContainer(int locX,int locY, int length, int width) {
-		this.name = "Custom";
-		this.locX = locX;
-		this.locY = locY;
-		this.length = length;
-		this.width = width;
+	public ItemContainer(String name) {
+		this.name = name;
 		this.price = 0;
 	}
 
 	public ArrayList<Item> getSelf() {
 		return self;
+	}
+	
+	public void updateInfo(String name, int locX, int locY,int length, int width, float price) {
+		this.setName(name);
+		this.setPrice(price);
+		this.setLocX(locX);
+		this.setLocY(locY);
+		this.setLength(length);
+		this.setWidth(width);
 	}
 	
 	/**
@@ -60,7 +49,7 @@ public class ItemContainer {
 		for (Item a : self) {
 			total += a.getPrice();
 		}
-		containerPrice = total;
+		containerPrice = total + this.price;
 	}
 	
 	/**
