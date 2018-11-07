@@ -1,6 +1,11 @@
 package farming;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+
+import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class Equipment extends Item{
 	
@@ -10,7 +15,7 @@ public class Equipment extends Item{
 	String company; //John Deere, etc.
 	String modelNumber; //MX993, A113, etc. (Sometimes model numbers have letters)
 	
-	public Equipment(String name, float price, int locX, int locY, int length, int width,int marketValue,
+	public Equipment(String name, int price, int locX, int locY, int length, int width,int marketValue,
 			String equipmentType, String company, String modelNumber) {
 		super(name,price,locX,locY,length,width,marketValue);
 		this.equipmentType = equipmentType;
@@ -18,7 +23,7 @@ public class Equipment extends Item{
 		this.modelNumber = modelNumber;
 	}
 	
-	public Equipment(String name,float price,int locX, int locY, int length, int width,
+	public Equipment(String name,int price,int locX, int locY, int length, int width,
 			int marketValue, String equipmentType, String company) {
 		super(name,price,locX,locY,length,width,marketValue);
 		this.equipmentType = equipmentType;
@@ -26,7 +31,7 @@ public class Equipment extends Item{
 		this.modelNumber = "";
 	}
 	
-	public Equipment(String name, float price,int locX, int locY, int length, int width,
+	public Equipment(String name, int price,int locX, int locY, int length, int width,
 			int marketValue, String equipmentType) {
 		super(name,price,locX,locY,length,width,marketValue);
 		this.equipmentType = equipmentType;
@@ -71,7 +76,7 @@ public class Equipment extends Item{
 		return true;
 	}
 	
-	public void updateInfo(String name, float price, int locX, int locY, int length, int width,int marketValue,
+	public void updateInfo(String name, int price, int locX, int locY, int length, int width,int marketValue,
 			String equipmentType, String company, String modelNumber) {
 		this.setName(name);
 		this.setPrice(price);
@@ -83,6 +88,61 @@ public class Equipment extends Item{
 		this.setEquipmentType(equipmentType);
 		this.setCompany(company);
 		this.setModelNumber(modelNumber);
+	}
+	
+	public void showInfo() {
+		JTextField name = new JTextField();
+		JTextField locX = new JFormattedTextField(NumberFormat.getNumberInstance());
+		JTextField locY = new JFormattedTextField(NumberFormat.getNumberInstance());
+		JTextField length = new JFormattedTextField(NumberFormat.getNumberInstance());
+		JTextField width = new JFormattedTextField(NumberFormat.getNumberInstance());
+		JTextField price = new JFormattedTextField(NumberFormat.getNumberInstance());
+		JTextField mPrice = new JFormattedTextField(NumberFormat.getNumberInstance());
+		JTextField equipmentType = new JTextField();
+		JTextField company = new JTextField();
+		JTextField modelNumber = new JTextField();
+		
+		name.setText(this.getName());
+		locX.setText(Integer.toString(this.getLocX()));
+		locY.setText(Integer.toString(this.getLocY()));
+		length.setText(Integer.toString(this.getLength()));
+		width.setText(Integer.toString(this.getWidth()));
+		price.setText(Integer.toString(this.getPrice()));
+		mPrice.setText(Integer.toString(this.getMarketValue()));
+		equipmentType.setText(this.getEquipmentType());
+		company.setText(this.getCompany());
+		modelNumber.setText(this.getModelNumber());
+		
+		Object[] equipMessage = {
+				"All of these fields are required for item creation",
+				"Name:" , name,
+				"X location:", locX,
+				"Y location:", locY,
+				"Length:", length,
+				"Width:", width,
+				"Price:", price,
+				"Market Price:", mPrice,
+				"Type of Equipment: " + equipmentType,
+    			"Company Name: " + company,
+    			"Model Number: " + modelNumber
+		};
+		
+		int result = JOptionPane.showConfirmDialog(null, equipMessage, "Update "+
+				this.getName(), JOptionPane.OK_CANCEL_OPTION);
+		
+		if (result == JOptionPane.OK_OPTION) {
+			this.updateInfo(name.getText(), 
+					Integer.valueOf(price.getText()),
+					Integer.valueOf(locX.getText()),
+					Integer.valueOf(locY.getText()), 
+					Integer.valueOf(length.getText()), 
+					Integer.valueOf(width.getText()), 
+					Integer.valueOf(mPrice.getText()),
+					equipmentType.getText(), 
+					company.getText(), 
+					modelNumber.getText());
+			Fscreen.text.append("Updated "+ this.toString() + "\n");
+		}
 	}
 
 	/**
