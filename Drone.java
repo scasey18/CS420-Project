@@ -23,7 +23,7 @@ public class Drone extends Item{
 		this.setLocY(locY);
 		this.setLength(length);
 		this.setWidth(width);
-		this.setMarketValue(marketValue);
+		this.setMarketValue(marketPrice);
 	}
 	
 	public void showInfo() {
