@@ -29,8 +29,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-
-
 public class Fscreen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
