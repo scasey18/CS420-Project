@@ -93,6 +93,7 @@ public class Fscreen extends JFrame{
 		addButton = createButton("Add", mainPanel);
 		removeButton = createButton("Remove", mainPanel);
 		updateButton = createButton("Visualize", mainPanel);
+		undoButton = createButton("Undo", mainPanel);
 		
 		//Button listener class
 		buttonListener buttonListener = new buttonListener();
@@ -100,7 +101,7 @@ public class Fscreen extends JFrame{
 		addButton.addActionListener(buttonListener);
 		removeButton.addActionListener(buttonListener);
 		updateButton.addActionListener(buttonListener);
-		
+		undoButton.addActionListener(buttonListener);
 
 		tree = new JTree(rootNode);
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -277,6 +278,10 @@ public class Fscreen extends JFrame{
             	else if(e.getSource() == updateButton) {
             		new Visualize(model);
             		JOptionPane.showMessageDialog(null,"Vizualized Farm has been generated");
+            	}
+            	//WIP
+            	else if(e.getSource() == undoButton){
+            	    model.removeNodeFromParent((DefaultMutableTreeNode)tree.getSelectionPath().getLastPathCompoent());
             	}
             }
             catch(Exception NullPointerException) {
