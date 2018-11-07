@@ -1,59 +1,31 @@
 package farming;
 
-public class Item {
-	
-	//TODO: This is a class for other objects so this class can have properties removed as soon as other object variables are decided
+public class Item{
 	
 	String name; //Name of the item
-	float price; //Price of the item (float is necessary)
+	int price; //Price of the item
 	int locX; //x-coordinate
 	int locY; //y-coordinate
 	int length; //size across the x axis
 	int width; //size across the y axis
+	int marketValue; //Item market value
 	
-	public Item(String name, int locX, int locY, int length, int width){
-		this.name = name;
-		this.locX = locX;
-		this.locY = locY;
-		this.length = length;
-		this.width = width;
-		this.price = 500; //Default price value
+	int itemCount;
+
+
+	public void update(int count) {
+		this.setItemCount(count);
 	}
-	
-	public Item(String name,float price, int locX, int locY, int length, int width){
+
+
+	public Item(String name,int price, int locX, int locY, int length, int width, int marketValue){
 		this.name = name;
 		this.locX = locX;
 		this.locY = locY;
 		this.length = length;
 		this.width = width;
 		this.price = price;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Item other = (Item) obj;
-		if (length != other.length)
-			return false;
-		if (locX != other.locX)
-			return false;
-		if (locY != other.locY)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (Float.floatToIntBits(price) != Float.floatToIntBits(other.price))
-			return false;
-		if (width != other.width)
-			return false;
-		return true;
+		this.marketValue = marketValue;
 	}
 
 	public String getName() {
@@ -64,11 +36,11 @@ public class Item {
 		this.name = name;
 	}
 
-	public float getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(float price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
@@ -104,6 +76,25 @@ public class Item {
 		this.width = width;
 	}
 	
+	public int getMarketValue() {
+		return marketValue;
+	}
+
+	public void setMarketValue(int marketValue) {
+		this.marketValue = marketValue;
+	}
 	
+	public String toString() {
+		return name;
+	}
+	
+	public int getItemCount() {
+		return itemCount;
+	}
+
+
+	public void setItemCount(int itemCount) {
+		this.itemCount = itemCount;
+	}
 	
 }
