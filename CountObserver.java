@@ -57,7 +57,8 @@ public class CountObserver {
 		// Meaning it has to be an item so add to the count and move on
 		while (a.hasMoreElements()) {
 			b = (DefaultMutableTreeNode) a.nextElement();
-			if (b.getUserObject().getClass().toString() == "class farming.ItemContainer") {
+			//if (b.getUserObject().getClass().toString() == "class farming.ItemContainer") {
+			if (b.getAllowsChildren()) {
 				
 			}
 			else {countA++;}
