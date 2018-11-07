@@ -94,7 +94,7 @@ public class Fscreen extends JFrame {
 		model.insertNodeInto(node, (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent(),
 				((DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent()).getChildCount());
 		text.append("Added " + node.getUserObject() + "\n");
-		itemCount.setText("Number of Items: " + count());
+		itemCount.setText("Number of Items: " + cObserve.count(tree.getRoot()));
 		return model;
 	}
 	
@@ -375,7 +375,7 @@ public class Fscreen extends JFrame {
 					cObserve.removeObserver(sel);
 					model.removeNodeFromParent(sel);
 					text.append("Removed " + sel.getUserObject() + "\n");
-					itemCount.setText("Number of Items: " + count());
+					itemCount.setText("Number of Items: " + cObserve.count(tree.getRoot()));
 				} else if (e.getSource() == visualButton) {
 					@SuppressWarnings("unused")
 					Visualize a = new Visualize(model);
