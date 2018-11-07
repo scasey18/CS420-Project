@@ -1,7 +1,9 @@
 package farming;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.util.Enumeration;
 
@@ -24,8 +26,9 @@ public class Visualize {
 
 		g2 = off_Image.createGraphics();
         traverseTree((DefaultMutableTreeNode)model.getRoot());
-        
         JFrame view = new JFrame("Visualized Farm");
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        view.setLocation(dim.width/2-view.getSize().width/2, dim.height/2-view.getSize().height/2);
         view.add(new JLabel(new ImageIcon(off_Image)));
         view.pack();
         
@@ -38,6 +41,7 @@ public class Visualize {
 	}
 	
 	public void traverseTree(DefaultMutableTreeNode node) {
+		@SuppressWarnings("rawtypes")
 		Enumeration en = node.postorderEnumeration();
 		
 		while(en.hasMoreElements()) {
@@ -72,6 +76,7 @@ public class Visualize {
 	}
 	
 	public int findLargestX(DefaultMutableTreeNode node) {
+		@SuppressWarnings("rawtypes")
 		Enumeration en = node.postorderEnumeration();
 		int x = 0;
 		while(en.hasMoreElements()) {
@@ -119,6 +124,7 @@ public class Visualize {
 	}
 	
 	public int findLargestY(DefaultMutableTreeNode node) {
+		@SuppressWarnings("rawtypes")
 		Enumeration en = node.postorderEnumeration();
 		int x = 0;
 		while(en.hasMoreElements()) {
