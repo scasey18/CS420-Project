@@ -237,23 +237,6 @@ public class Fscreen extends JFrame {
 		this.setVisible(true);
 	}
 
-	/**
-	 * This runs the "root" node and return the number of items in the tree
-	 */
-	@SuppressWarnings({ "rawtypes" })
-	public int count() {
-		int countA = 0;
-		Enumeration a = rootNode.children();
-		DefaultMutableTreeNode b;
-		// Iterates through every node and if it is not a ItemContainer add 1
-		// Meaning it has to be an item so add to the count and move on
-		while (a.hasMoreElements()) {
-			b = (DefaultMutableTreeNode) a.nextElement();
-			if (b.getUserObject().getClass().toString() == "class farming.ItemContainer") {}
-			else {countA++;}
-		}
-		return countA;
-	}
 
 	private class buttonListener implements ActionListener {
 
@@ -404,7 +387,7 @@ public class Fscreen extends JFrame {
 				} else if (e.getSource() == RedoButton) {
 					JOptionPane.showMessageDialog(null, "Redo Works");
 				} else if (e.getSource() == updateButton) {
-					cObserve.setCount(count());
+					cObserve.setCount(cObserve.count(tree.getRoot()));
 				}
 			} catch (Exception NullPointerException) {
 				// Has to select a item before it can remove

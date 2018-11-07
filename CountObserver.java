@@ -44,5 +44,23 @@ public class CountObserver {
 			break;
     	}
     }
+    
+    /**
+	 * This runs the "root" node and return the number of items in the tree
+	 */
+	@SuppressWarnings({ "rawtypes" })
+	public int count(DefaultMutableTreeNode rootNode) {
+		int countA = 0;
+		Enumeration a = rootNode.children();
+		DefaultMutableTreeNode b;
+		// Iterates through every node and if it is not a ItemContainer add 1
+		// Meaning it has to be an item so add to the count and move on
+		while (a.hasMoreElements()) {
+			b = (DefaultMutableTreeNode) a.nextElement();
+			if (b.getUserObject().getClass().toString() == "class farming.ItemContainer") {}
+			else {countA++;}
+		}
+		return countA;
+	}
 
 }
