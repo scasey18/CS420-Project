@@ -1,24 +1,12 @@
 package farming;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Observable;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class ItemContainer extends Observable{
-	
-	ArrayList<Item> self = new ArrayList<Item>();
-	float total = 0;
-	String name; //holds name
-	int price; //Holds price of the container
-	int locX; //intial x
-	int locY; //intial y
-	int length; //length value
-	int width; //width value
-	float containerPrice; //holds total price for everything in the container
+public class ItemContainer extends commonItem{
 	
 	public ItemContainer(String name, int price, int locX, int locY, int length, int width) {
 		this.name = name;
@@ -82,54 +70,6 @@ public class ItemContainer extends Observable{
 					Integer.valueOf(price.getText()));
 			Fscreen.text.append("Updated "+ this.toString() + "\n");
 		}
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
-	public int getLocX() {
-		return locX;
-	}
-
-	public void setLocX(int locX) {
-		this.locX = locX;
-	}
-
-	public int getLocY() {
-		return locY;
-	}
-
-	public void setLocY(int locY) {
-		this.locY = locY;
-	}
-
-	public int getLength() {
-		return length;
-	}
-
-	public void setLength(int length) {
-		this.length = length;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
 	}
 	
 	public String toString() {
