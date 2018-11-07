@@ -1,7 +1,7 @@
 package farming;
 
 import java.util.ArrayList;
-
+import java.util.Enumeration;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class CountObserver {
@@ -57,7 +57,9 @@ public class CountObserver {
 		// Meaning it has to be an item so add to the count and move on
 		while (a.hasMoreElements()) {
 			b = (DefaultMutableTreeNode) a.nextElement();
-			if (b.getUserObject().getClass().toString() == "class farming.ItemContainer") {}
+			if (b.getUserObject().getClass().toString() == "class farming.ItemContainer") {
+				
+			}
 			else {countA++;}
 		}
 		return countA;
