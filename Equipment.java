@@ -122,9 +122,9 @@ public class Equipment extends Item{
 				"Width:", width,
 				"Price:", price,
 				"Market Price:", mPrice,
-				"Type of Equipment: " + equipmentType,
-    			"Company Name: " + company,
-    			"Model Number: " + modelNumber
+				"Type of Equipment: ", equipmentType,
+    			"Company Name: ", company,
+    			"Model Number: ",modelNumber
 		};
 		
 		int result = JOptionPane.showConfirmDialog(null, equipMessage, "Update "+
