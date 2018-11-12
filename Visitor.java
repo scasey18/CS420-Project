@@ -4,8 +4,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 public interface Visitor {
 	
-	int visit(DefaultMutableTreeNode node);
 	int visit(Crops crop);
+	int visit(DefaultMutableTreeNode node);
 	int visit(Drone drone);
 	int visit(Equipment equip);
 	int visit(ItemContainer container);

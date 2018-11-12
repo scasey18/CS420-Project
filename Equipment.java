@@ -1,9 +1,7 @@
 package farming;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -15,12 +13,12 @@ public class Equipment extends Item{
 	String company; //John Deere, etc.
 	String modelNumber; //MX993, A113, etc. (Sometimes model numbers have letters)
 	
-	public Equipment(String name, int price, int locX, int locY, int length, int width,int marketValue,
-			String equipmentType, String company, String modelNumber) {
+	public Equipment(String name, int price,int locX, int locY, int length, int width,
+			int marketValue, String equipmentType) {
 		super(name,price,locX,locY,length,width,marketValue);
 		this.equipmentType = equipmentType;
-		this.company = company;
-		this.modelNumber = modelNumber;
+		this.company ="";
+		this.modelNumber = "";
 	}
 	
 	public Equipment(String name,int price,int locX, int locY, int length, int width,
@@ -31,19 +29,34 @@ public class Equipment extends Item{
 		this.modelNumber = "";
 	}
 	
-	public Equipment(String name, int price,int locX, int locY, int length, int width,
-			int marketValue, String equipmentType) {
+	public Equipment(String name, int price, int locX, int locY, int length, int width,int marketValue,
+			String equipmentType, String company, String modelNumber) {
 		super(name,price,locX,locY,length,width,marketValue);
 		this.equipmentType = equipmentType;
-		this.company ="";
-		this.modelNumber = "";
+		this.company = company;
+		this.modelNumber = modelNumber;
 	}
 	
-	public String toString() {
-		return name + " - Equipment";
+	public Equipment clone() {
+		return new Equipment(name,price,locX,locY,length,width,marketValue,equipmentType,company,modelNumber);
+	}
+	
+	/**
+	 * This method adds a piece of string info to a piece of equipment
+	 * @param a, the info to be added
+	 */
+	public void addInfo(String a) {
+		info.add(a);
 	}
 
 
+	/**
+	 * This will remove all info from a equipment's info
+	 */
+	public void clearInfo() {
+		info.clear();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -76,6 +89,99 @@ public class Equipment extends Item{
 		return true;
 	}
 	
+	public String getCompany() {
+		return company;
+	}
+
+	public String getEquipmentType() {
+		return equipmentType;
+	}
+	
+	public ArrayList<String> getInfo() {
+		return info;
+	}
+	
+	public String getModelNumber() {
+		return modelNumber;
+	}
+	
+	/**
+	 * Removes the requested info
+	 * @param a , info to be deleted
+	 */
+	public void removeInfo(String a) {
+		info.remove(a);
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
+	public void setEquipmentType(String equipmentType) {
+		this.equipmentType = equipmentType;
+	}
+
+	public void setInfo(ArrayList<String> info) {
+		this.info = info;
+	}
+
+	public void setModelNumber(String modelNumber) {
+		this.modelNumber = modelNumber;
+	}
+
+	public void showInfo() {
+		
+		JTextField equipmentType = new JTextField();
+		JTextField company = new JTextField();
+		JTextField modelNumber = new JTextField();
+		
+		nameField.setText(this.getName());
+		locXField.setText(Integer.toString(this.getLocX()));
+		locYField.setText(Integer.toString(this.getLocY()));
+		lengthField.setText(Integer.toString(this.getLength()));
+		widthField.setText(Integer.toString(this.getWidth()));
+		priceField.setText(Integer.toString(this.getPrice()));
+		mPriceField.setText(Integer.toString(this.getMarketValue()));
+		equipmentType.setText(this.getEquipmentType());
+		company.setText(this.getCompany());
+		modelNumber.setText(this.getModelNumber());
+		
+		Object[] equipMessage = {
+				"All of these fields are required for item creation",
+				"Name:" , nameField,
+				"X location:", locXField,
+				"Y location:", locYField,
+				"Length:", lengthField,
+				"Width:", widthField,
+				"Price:", priceField,
+				"Market Value:", mPriceField,
+				"Type of Equipment: ", equipmentType,
+    			"Company Name: ", company,
+    			"Model Number: ",modelNumber
+		};
+		
+		int result = JOptionPane.showConfirmDialog(null, equipMessage, "Update "+
+				this.getName(), JOptionPane.OK_CANCEL_OPTION);
+		
+		if (result == JOptionPane.OK_OPTION) {
+			this.updateInfo(nameField.getText(), 
+					Integer.valueOf(priceField.getText()), 
+					Integer.valueOf(locXField.getText()), 
+					Integer.valueOf(locYField.getText()), 
+					Integer.valueOf(lengthField.getText()), 
+					Integer.valueOf(widthField.getText()), 
+					Integer.valueOf(mPriceField.getText()),
+					equipmentType.getText(), 
+					company.getText(), 
+					modelNumber.getText());
+			Fscreen.createFscreen().text.append("Updated "+ this.toString() + "\n");
+		}
+	}
+
+	public String toString() {
+		return name + " - Equipment";
+	}
+
 	public void updateInfo(String name, int price, int locX, int locY, int length, int width,int marketValue,
 			String equipmentType, String company, String modelNumber) {
 		this.setName(name);
@@ -88,116 +194,6 @@ public class Equipment extends Item{
 		this.setEquipmentType(equipmentType);
 		this.setCompany(company);
 		this.setModelNumber(modelNumber);
-	}
-	
-	public void showInfo() {
-		JTextField name = new JTextField();
-		JTextField locX = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField locY = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField length = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField width = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField price = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField mPrice = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField equipmentType = new JTextField();
-		JTextField company = new JTextField();
-		JTextField modelNumber = new JTextField();
-		
-		name.setText(this.getName());
-		locX.setText(Integer.toString(this.getLocX()));
-		locY.setText(Integer.toString(this.getLocY()));
-		length.setText(Integer.toString(this.getLength()));
-		width.setText(Integer.toString(this.getWidth()));
-		price.setText(Integer.toString(this.getPrice()));
-		mPrice.setText(Integer.toString(this.getMarketValue()));
-		equipmentType.setText(this.getEquipmentType());
-		company.setText(this.getCompany());
-		modelNumber.setText(this.getModelNumber());
-		
-		Object[] equipMessage = {
-				"All of these fields are required for item creation",
-				"Name:" , name,
-				"X location:", locX,
-				"Y location:", locY,
-				"Length:", length,
-				"Width:", width,
-				"Price:", price,
-				"Market Price:", mPrice,
-				"Type of Equipment: ", equipmentType,
-    			"Company Name: ", company,
-    			"Model Number: ",modelNumber
-		};
-		
-		int result = JOptionPane.showConfirmDialog(null, equipMessage, "Update "+
-				this.getName(), JOptionPane.OK_CANCEL_OPTION);
-		
-		if (result == JOptionPane.OK_OPTION) {
-			this.updateInfo(name.getText(), 
-					Integer.valueOf(price.getText()),
-					Integer.valueOf(locX.getText()),
-					Integer.valueOf(locY.getText()), 
-					Integer.valueOf(length.getText()), 
-					Integer.valueOf(width.getText()), 
-					Integer.valueOf(mPrice.getText()),
-					equipmentType.getText(), 
-					company.getText(), 
-					modelNumber.getText());
-			Fscreen.text.append("Updated "+ this.toString() + "\n");
-		}
-	}
-
-	/**
-	 * This method adds a piece of string info to a piece of equipment
-	 * @param a, the info to be added
-	 */
-	public void addInfo(String a) {
-		info.add(a);
-	}
-	
-	/**
-	 * Removes the requested info
-	 * @param a , info to be deleted
-	 */
-	public void removeInfo(String a) {
-		info.remove(a);
-	}
-	
-	/**
-	 * This will remove all info from a equipment's info
-	 */
-	public void clearInfo() {
-		info.clear();
-	}
-	
-	public String getEquipmentType() {
-		return equipmentType;
-	}
-
-	public void setEquipmentType(String equipmentType) {
-		this.equipmentType = equipmentType;
-	}
-
-	public ArrayList<String> getInfo() {
-		return info;
-	}
-
-	public void setInfo(ArrayList<String> info) {
-		this.info = info;
-	}
-
-	public String getCompany() {
-		return company;
-	}
-
-	public void setCompany(String company) {
-		this.company = company;
-	}
-
-	public String getModelNumber() {
-		return modelNumber;
-	}
-
-	public void setModelNumber(String modelNumber) {
-		this.modelNumber = modelNumber;
 	}
 	
 }

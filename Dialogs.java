@@ -48,20 +48,6 @@ public class Dialogs {
 			return null;
 		}
 
-		public static int suppliesDialog(String currentObject) {
-			JTextField count = new JFormattedTextField(NumberFormat.getNumberInstance());
-			Object[] message = { "Item Count:", count };
-
-			int option = JOptionPane.showConfirmDialog(null, message, "Create " + currentObject,
-					JOptionPane.OK_CANCEL_OPTION);
-			if (option == JOptionPane.OK_OPTION && !count.getText().trim().equals("")) {
-				return Integer.valueOf(count.getText());
-			} else if (option == JOptionPane.OK_OPTION) {
-				JOptionPane.showMessageDialog(null, currentObject + " was not added because all fields were not filled");
-			}
-			return -1;
-		}
-
 		public static String[] liveStockDialog(String currentObject) {
 			JTextField animalType = new JTextField();
 			String[] possible = { "Male", "Female" };
@@ -77,5 +63,19 @@ public class Dialogs {
 				JOptionPane.showMessageDialog(null, currentObject + " was not added because all fields were not filled");
 			}
 			return null;
+		}
+
+		public static int suppliesDialog(String currentObject) {
+			JTextField count = new JFormattedTextField(NumberFormat.getNumberInstance());
+			Object[] message = { "Item Count:", count };
+
+			int option = JOptionPane.showConfirmDialog(null, message, "Create " + currentObject,
+					JOptionPane.OK_CANCEL_OPTION);
+			if (option == JOptionPane.OK_OPTION && !count.getText().trim().equals("")) {
+				return Integer.valueOf(count.getText());
+			} else if (option == JOptionPane.OK_OPTION) {
+				JOptionPane.showMessageDialog(null, currentObject + " was not added because all fields were not filled");
+			}
+			return -1;
 		}
 }

@@ -1,11 +1,8 @@
 package farming;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
 public class Drone extends Item{
 	
@@ -16,6 +13,62 @@ public class Drone extends Item{
 		super(name,price,locX,locY,length,width, marketPrice);
 	}
 	
+	public Drone clone() {
+		return new Drone(name,price,locX,locY,length,width, marketValue);
+	}
+	
+	public void addFlightPath(ItemContainer a) {
+		flightPath.add(a);
+	}
+	
+	public void clearFlightPath(){
+		flightPath.clear();
+	}
+	
+	public void removeFlightPath(ItemContainer a) {
+		flightPath.remove(a);
+	}
+	
+	public void showInfo() {
+		
+		nameField.setText(this.getName());
+		locXField.setText(Integer.toString(this.getLocX()));
+		locYField.setText(Integer.toString(this.getLocY()));
+		lengthField.setText(Integer.toString(this.getLength()));
+		widthField.setText(Integer.toString(this.getWidth()));
+		priceField.setText(Integer.toString(this.getPrice()));
+		mPriceField.setText(Integer.toString(this.getMarketValue()));
+		
+		Object[] droneMessage = {
+				"All of these fields are required for item creation",
+				"Name:" , nameField,
+				"X location:", locXField,
+				"Y location:", locYField,
+				"Length:", lengthField,
+				"Width:", widthField,
+				"Price:", priceField,
+				"Market Value:", mPriceField,
+		};
+		
+		int result = JOptionPane.showConfirmDialog(null, droneMessage, "Create "+
+				this.getName(), JOptionPane.OK_CANCEL_OPTION);
+		
+		if (result == JOptionPane.OK_OPTION) {
+			this.updateInfo(nameField.getText(), 
+					Integer.valueOf(priceField.getText()), 
+					Integer.valueOf(locXField.getText()), 
+					Integer.valueOf(locYField.getText()), 
+					Integer.valueOf(lengthField.getText()), 
+					Integer.valueOf(widthField.getText()), 
+					Integer.valueOf(mPriceField.getText()));
+			Fscreen.createFscreen().text.append("Updated "+ this.toString() + "\n");
+		}
+	}
+	
+	public String toString() {
+		return name + " - Drone";
+	}
+	
 	public void updateInfo(String name,int price, int locX, int locY, int length, int width, int marketPrice) {
 		this.setName(name);
 		this.setPrice(price);
@@ -24,65 +77,6 @@ public class Drone extends Item{
 		this.setLength(length);
 		this.setWidth(width);
 		this.setMarketValue(marketPrice);
-	}
-	
-	public void showInfo() {
-		JTextField name = new JTextField();
-		JTextField locX = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField locY = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField length = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField width = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField price = new JFormattedTextField(NumberFormat.getNumberInstance());
-		JTextField mPrice = new JFormattedTextField(NumberFormat.getNumberInstance());
-		
-		name.setText(this.getName());
-		locX.setText(Integer.toString(this.getLocX()));
-		locY.setText(Integer.toString(this.getLocY()));
-		length.setText(Integer.toString(this.getLength()));
-		width.setText(Integer.toString(this.getWidth()));
-		price.setText(Integer.toString(this.getPrice()));
-		mPrice.setText(Integer.toString(this.getMarketValue()));
-		
-		Object[] droneMessage = {
-				"All of these fields are required for item creation",
-				"Name:" , name,
-				"X location:", locX,
-				"Y location:", locY,
-				"Length:", length,
-				"Width:", width,
-				"Price:", price,
-				"Market Price: ", mPrice
-		};
-		
-		int result = JOptionPane.showConfirmDialog(null, droneMessage, "Create "+
-				this.getName(), JOptionPane.OK_CANCEL_OPTION);
-		
-		if (result == JOptionPane.OK_OPTION) {
-			this.updateInfo(name.getText(), 
-					Integer.valueOf(price.getText()), 
-					Integer.valueOf(locX.getText()), 
-					Integer.valueOf(locY.getText()), 
-					Integer.valueOf(length.getText()), 
-					Integer.valueOf(width.getText()), 
-					Integer.valueOf(mPrice.getText()));
-			Fscreen.text.append("Updated "+ this.toString() + "\n");
-		}
-	}
-	
-	public void addFlightPath(ItemContainer a) {
-		flightPath.add(a);
-	}
-	
-	public void removeFlightPath(ItemContainer a) {
-		flightPath.remove(a);
-	}
-	
-	public String toString() {
-		return name + " - Drone";
-	}
-	
-	public void clearFlightPath(){
-		flightPath.clear();
 	}
 	
 }
