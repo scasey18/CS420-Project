@@ -18,60 +18,23 @@ public class Visualize {
 	private Graphics2D g2;
 	
 	public Visualize(DefaultTreeModel model) {
-		BufferedImage off_Image = new BufferedImage(findLargestX((DefaultMutableTreeNode)model.getRoot())+10, 
-				findLargestY((DefaultMutableTreeNode)model.getRoot())+10,
+		BufferedImage off_Image = new BufferedImage(findLargestX((DefaultMutableTreeNode)model.getRoot())+1, 
+				findLargestY((DefaultMutableTreeNode)model.getRoot())+1,
 				                    BufferedImage.TYPE_INT_ARGB);
 
 		g2 = off_Image.createGraphics();
         traverseTree((DefaultMutableTreeNode)model.getRoot());
-        
         JFrame view = new JFrame("Visualized Farm");
+        //Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        //view.setLocation(dim.width/2-view.getSize().width/2, dim.height/2-view.getSize().height/2);
         view.add(new JLabel(new ImageIcon(off_Image)));
         view.pack();
         
         view.setVisible(true);
 	}
 	
-	public void paint(int x, int y, int z, int a) {
-		g2.setColor(Color.BLACK);
-		g2.drawRect(x,y,z,a);
-	}
-	
-	public void traverseTree(DefaultMutableTreeNode node) {
-		Enumeration en = node.postorderEnumeration();
-		
-		while(en.hasMoreElements()) {
-			node = (DefaultMutableTreeNode) en.nextElement();
-			switch(node.getUserObject().getClass().toString()) {
-			case "class farming.ItemContainer":
-				ItemContainer a = (ItemContainer)node.getUserObject();
-				paint(a.getLocX(),a.getLocY(),a.getLength(),a.getWidth());
-				break;
-			case "class farming.LiveStock":
-				LiveStock a1 = (LiveStock)node.getUserObject();
-				paint(a1.getLocX(),a1.getLocY(),a1.getLength(),a1.getWidth());
-				break;
-			case "class farming.Drone":
-				Drone a2 = (Drone)node.getUserObject();
-				paint(a2.getLocX(),a2.getLocY(),a2.getLength(),a2.getWidth());
-				break;
-			case "class farming.Supplies":
-				Supplies a3 = (Supplies)node.getUserObject();
-				paint(a3.getLocX(),a3.getLocY(),a3.getLength(),a3.getWidth());
-				break;
-			case "class farming.Crops":
-				Crops a4 = (Crops)node.getUserObject();
-				paint(a4.getLocX(),a4.getLocY(),a4.getLength(),a4.getWidth());
-				break;
-			case "class farming.Equipment":
-				Equipment a5 = (Equipment)node.getUserObject();
-				paint(a5.getLocX(),a5.getLocY(),a5.getLength(),a5.getWidth());
-				break;
-			}
-		}
-	}
-	
 	public int findLargestX(DefaultMutableTreeNode node) {
+		@SuppressWarnings("rawtypes")
 		Enumeration en = node.postorderEnumeration();
 		int x = 0;
 		while(en.hasMoreElements()) {
@@ -119,6 +82,7 @@ public class Visualize {
 	}
 	
 	public int findLargestY(DefaultMutableTreeNode node) {
+		@SuppressWarnings("rawtypes")
 		Enumeration en = node.postorderEnumeration();
 		int x = 0;
 		while(en.hasMoreElements()) {
@@ -163,5 +127,45 @@ public class Visualize {
 			}
 		}
 		return x;
+	}
+	
+	public void paint(int x, int y, int z, int a) {
+		g2.setColor(Color.BLACK);
+		g2.drawRect(x,y,z,a);
+	}
+	
+	public void traverseTree(DefaultMutableTreeNode node) {
+		@SuppressWarnings("rawtypes")
+		Enumeration en = node.postorderEnumeration();
+		
+		while(en.hasMoreElements()) {
+			node = (DefaultMutableTreeNode) en.nextElement();
+			switch(node.getUserObject().getClass().toString()) {
+			case "class farming.ItemContainer":
+				ItemContainer a = (ItemContainer)node.getUserObject();
+				paint(a.getLocX(),a.getLocY(),a.getLength(),a.getWidth());
+				break;
+			case "class farming.LiveStock":
+				LiveStock a1 = (LiveStock)node.getUserObject();
+				paint(a1.getLocX(),a1.getLocY(),a1.getLength(),a1.getWidth());
+				break;
+			case "class farming.Drone":
+				Drone a2 = (Drone)node.getUserObject();
+				paint(a2.getLocX(),a2.getLocY(),a2.getLength(),a2.getWidth());
+				break;
+			case "class farming.Supplies":
+				Supplies a3 = (Supplies)node.getUserObject();
+				paint(a3.getLocX(),a3.getLocY(),a3.getLength(),a3.getWidth());
+				break;
+			case "class farming.Crops":
+				Crops a4 = (Crops)node.getUserObject();
+				paint(a4.getLocX(),a4.getLocY(),a4.getLength(),a4.getWidth());
+				break;
+			case "class farming.Equipment":
+				Equipment a5 = (Equipment)node.getUserObject();
+				paint(a5.getLocX(),a5.getLocY(),a5.getLength(),a5.getWidth());
+				break;
+			}
+		}
 	}
 }

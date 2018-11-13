@@ -2,6 +2,9 @@ package farming;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
 public class LiveStock extends Item{
 	
 	String animalType; //Pig,Dog,Cow are all examples
@@ -10,25 +13,15 @@ public class LiveStock extends Item{
 	//Such as vaccination dates or health warnings
 	String gender; //Male or Female (M or F)
 	
-	public LiveStock(String name, float price, int locX, int locY, int length, int width
-			,String animalType, String gender) {
-		super(name,price,locX,locY,length,width);
+	public LiveStock(String name, int price, int locX, int locY, int length, int width
+			,String animalType, String gender, int marketValue) {
+		super(name,price,locX,locY,length,width, marketValue);
 		this.animalType = animalType;
 		this.gender = gender;
 	}
-	
-	public LiveStock(String name, int locX, int locY, int length, int width
-			,String animalType, String gender) {
-		super(name,locX,locY,length,width);
-		this.animalType = animalType;
-		this.gender = gender;
+	public LiveStock clone() {
+		return new LiveStock(name,price,locX,locY,length,width, animalType, gender, marketValue);
 	}
-	
-	public String toString() {
-		return name + " - Livestock";
-	}
-
-	
 	/**
 	 * This method adds a piece of string info to an animal
 	 * @param a, the info to be added
@@ -38,44 +31,12 @@ public class LiveStock extends Item{
 	}
 	
 	/**
-	 * Removes the requested info
-	 * @param a , info to be deleted
-	 */
-	public void removeInfo(String a) {
-		info.remove(a);
-	}
-	
-	/**
 	 * This will remove all info from a livestock's info
 	 */
 	public void clearInfo() {
 		info.clear();
 	}
-
-	public String getAnimalType() {
-		return animalType;
-	}
-
-	public void setAnimalType(String animalType) {
-		this.animalType = animalType;
-	}
-
-	public ArrayList<String> getInfo() {
-		return info;
-	}
-
-	public void setInfo(ArrayList<String> info) {
-		this.info = info;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -101,6 +62,99 @@ public class LiveStock extends Item{
 		} else if (!info.equals(other.info))
 			return false;
 		return true;
+	}
+	
+	public String getAnimalType() {
+		return animalType;
+	}
+	
+	public String getGender() {
+		return gender;
+	}
+	
+	public ArrayList<String> getInfo() {
+		return info;
+	}
+
+	/**
+	 * Removes the requested info
+	 * @param a , info to be deleted
+	 */
+	public void removeInfo(String a) {
+		info.remove(a);
+	}
+
+	public void setAnimalType(String animalType) {
+		this.animalType = animalType;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public void setInfo(ArrayList<String> info) {
+		this.info = info;
+	}
+
+	public void showInfo() {
+		
+		JTextField animalType = new JTextField();
+		JTextField animalGender = new JTextField();
+		nameField.setText(this.getName());
+		locXField.setText(Integer.toString(this.getLocX()));
+		locYField.setText(Integer.toString(this.getLocY()));
+		lengthField.setText(Integer.toString(this.getLength()));
+		widthField.setText(Integer.toString(this.getWidth()));
+		priceField.setText(Integer.toString(this.getPrice()));
+		mPriceField.setText(Integer.toString(this.getMarketValue()));
+		animalType.setText(this.getAnimalType());
+		animalGender.setText(this.getGender());
+		
+		Object[] animalMessage = {
+				"All of these fields are required for item creation",
+				"Name:" , nameField,
+				"X location:", locXField,
+				"Y location:", locYField,
+				"Length:", lengthField,
+				"Width:", widthField,
+				"Price:", priceField,
+				"Market Value:", mPriceField,
+				"Animal Type:", animalType,
+				"Gender:", animalGender
+		};
+		
+		int result = JOptionPane.showConfirmDialog(null, animalMessage, "Update "+
+				this.getName(), JOptionPane.OK_CANCEL_OPTION);
+		
+		if (result == JOptionPane.OK_OPTION) {
+			this.updateInfo(nameField.getText(), 
+					Integer.valueOf(priceField.getText()), 
+					Integer.valueOf(locXField.getText()), 
+					Integer.valueOf(locYField.getText()), 
+					Integer.valueOf(lengthField.getText()), 
+					Integer.valueOf(widthField.getText()), 
+					animalType.getText(), 
+					animalGender.getText(),
+					Integer.valueOf(mPriceField.getText()));
+			Fscreen.createFscreen().text.append("Updated "+ this.toString() + "\n");
+		}
+	}
+
+	public String toString() {
+		return name + " - Livestock";
+	}
+
+	public void updateInfo(String name, int price, int locX, int locY, int length, int width
+			,String animalType, String gender, int marketValue) {
+		this.setName(name);
+		this.setPrice(price);
+		this.setLocX(locX);
+		this.setLocY(locY);
+		this.setLength(length);
+		this.setWidth(width);
+		this.setAnimalType(animalType);
+		this.setGender(gender);
+		this.setMarketValue(marketValue);
 	}
 
 }
