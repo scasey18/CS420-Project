@@ -1,16 +1,23 @@
 package farming;
 
-public class redoCommand {
-	
+import java.io.Serializable;
+
+public class redoCommand implements commandPattern, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Pair redo;
 
 	public redoCommand(Pair redo) {
 		this.redo = redo;
 	}
-	
+
+	@SuppressWarnings("static-access")
 	public void execute() {
 		// TODO Auto-generated method stub
-		switch(redo.getAction()) {
+		switch (redo.getAction()) {
 		case "Remove":
 			Fscreen.createFscreen().model.removeNodeFromParent(redo.getNode1());
 			break;
@@ -22,16 +29,16 @@ public class redoCommand {
 			redo.getNode1().setUserObject(redo.getObj());
 			break;
 		}
-		//Redraws the tree in order to see the readded node
+		// Redraws the tree in order to see the readded node
 		Fscreen.createFscreen().tree.repaint();
 		Fscreen.createFscreen().model.reload();
 		Fscreen.createFscreen().text.append(this.toString() + "\n");
 	}
-	
+
 	public String toString() {
-		return "Redo (" +redo.getAction() + " " + redo.getNode1() + ")";
+		return "Redo (" + redo.getAction() + " " + redo.getNode1() + ")";
 	}
-	
+
 	public Pair getPair() {
 		return redo;
 	}
