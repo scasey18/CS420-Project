@@ -2,6 +2,7 @@ package farming;
 
 import java.util.ArrayList;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -115,19 +116,22 @@ public class LiveStock extends Item {
 
 	@SuppressWarnings("static-access")
 	public void showInfo() {
+		
+		JTextField nameField = new JTextField(this.getName());
+		JFormattedTextField locXField = new JFormattedTextField(createFormat());
+		JFormattedTextField locYField = new JFormattedTextField(createFormat());
+		JFormattedTextField lengthField = new JFormattedTextField(createFormat());
+		JFormattedTextField widthField = new JFormattedTextField(createFormat());
+		JFormattedTextField priceField = new JFormattedTextField(createFormat());
+		JTextField animalType = new JTextField(this.getAnimalType());
+		JTextField animalGender = new JTextField(this.getGender());
 
-		JTextField animalType = new JTextField();
-		JTextField animalGender = new JTextField();
-
-		nameField.setText(this.getName());
 		locXField.setText(Integer.toString(this.getLocX()));
 		locYField.setText(Integer.toString(this.getLocY()));
 		lengthField.setText(Integer.toString(this.getLength()));
 		widthField.setText(Integer.toString(this.getWidth()));
 		priceField.setText(Integer.toString(this.getPrice()));
 		mPriceField.setText(Integer.toString(this.getMarketValue()));
-		animalType.setText(this.getAnimalType());
-		animalGender.setText(this.getGender());
 
 		Object[] animalMessage = { "All of these fields are required for item creation", "Name:", nameField,
 				"X location:", locXField, "Y location:", locYField, "Length:", lengthField, "Width:", widthField,

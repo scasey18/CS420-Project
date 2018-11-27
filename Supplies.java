@@ -51,10 +51,16 @@ public class Supplies extends Item {
 
 	@SuppressWarnings("static-access")
 	public void showInfo() {
+		
+		JTextField nameField = new JTextField(this.getName());
+		JFormattedTextField locXField = new JFormattedTextField(createFormat());
+		JFormattedTextField locYField = new JFormattedTextField(createFormat());
+		JFormattedTextField lengthField = new JFormattedTextField(createFormat());
+		JFormattedTextField widthField = new JFormattedTextField(createFormat());
+		JFormattedTextField priceField = new JFormattedTextField(createFormat());
 
-		JTextField count = new JFormattedTextField(createFormat());
+		JFormattedTextField count = new JFormattedTextField(createFormat());
 
-		nameField.setText(this.getName());
 		locXField.setText(Integer.toString(this.getLocX()));
 		locYField.setText(Integer.toString(this.getLocY()));
 		lengthField.setText(Integer.toString(this.getLength()));

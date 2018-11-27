@@ -1,6 +1,8 @@
 package farming;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class ItemContainer extends commonItem {
 
@@ -44,8 +46,14 @@ public class ItemContainer extends commonItem {
 	}
 
 	public void showInfo() {
+		
+		JTextField nameField = new JTextField(this.getName());
+		JFormattedTextField locXField = new JFormattedTextField(createFormat());
+		JFormattedTextField locYField = new JFormattedTextField(createFormat());
+		JFormattedTextField lengthField = new JFormattedTextField(createFormat());
+		JFormattedTextField widthField = new JFormattedTextField(createFormat());
+		JFormattedTextField priceField = new JFormattedTextField(createFormat());
 
-		nameField.setText(this.getName());
 		locXField.setText(Integer.toString(this.getLocX()));
 		locYField.setText(Integer.toString(this.getLocY()));
 		lengthField.setText(Integer.toString(this.getLength()));

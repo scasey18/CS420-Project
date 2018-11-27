@@ -3,9 +3,6 @@ package farming;
 import java.io.Serializable;
 import java.text.NumberFormat;
 
-import javax.swing.JFormattedTextField;
-import javax.swing.JTextField;
-
 public class commonItem implements Serializable {
 
 	/**
@@ -18,13 +15,6 @@ public class commonItem implements Serializable {
 	int locY; // intial y
 	int length; // length value
 	int width; // width value
-
-	JTextField nameField = new JTextField();
-	JFormattedTextField locXField = new JFormattedTextField(createFormat());
-	JFormattedTextField locYField = new JFormattedTextField(createFormat());
-	JFormattedTextField lengthField = new JFormattedTextField(createFormat());
-	JFormattedTextField widthField = new JFormattedTextField(createFormat());
-	JFormattedTextField priceField = new JFormattedTextField(createFormat());
 
 	public static NumberFormat createFormat() {
 		NumberFormat format = NumberFormat.getIntegerInstance();

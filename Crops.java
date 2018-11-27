@@ -1,5 +1,6 @@
 package farming;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -53,17 +54,22 @@ public class Crops extends Item {
 	}
 
 	public void showInfo() {
+		
+		JTextField nameField = new JTextField(this.getName());
+		JFormattedTextField locXField = new JFormattedTextField(createFormat());
+		JFormattedTextField locYField = new JFormattedTextField(createFormat());
+		JFormattedTextField lengthField = new JFormattedTextField(createFormat());
+		JFormattedTextField widthField = new JFormattedTextField(createFormat());
+		JFormattedTextField priceField = new JFormattedTextField(createFormat());
 
-		JTextField cropType = new JTextField();
+		JTextField cropType = new JTextField(this.getCropType());
 
-		nameField.setText(this.getName());
 		locXField.setText(String.valueOf(this.getLocX()));
 		locYField.setText(Integer.toString(this.getLocY()));
 		lengthField.setText(Integer.toString(this.getLength()));
 		widthField.setText(Integer.toString(this.getWidth()));
 		priceField.setText(Integer.toString(this.getPrice()));
 		mPriceField.setText(Integer.toString(this.getMarketValue()));
-		cropType.setText(this.getCropType());
 
 		Object[] cropMessage = { "All of these fields are required for item creation", "Name:", nameField,
 				"X location:", locXField, "Y location:", locYField, "Length:", lengthField, "Width:", widthField,

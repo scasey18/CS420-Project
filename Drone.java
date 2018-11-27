@@ -2,7 +2,9 @@ package farming;
 
 import java.util.ArrayList;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class Drone extends Item {
 
@@ -37,8 +39,14 @@ public class Drone extends Item {
 		flightPath.remove(a);
 	}
 
-	@SuppressWarnings("static-access")
 	public void showInfo() {
+		
+		JTextField nameField = new JTextField(this.getName());
+		JFormattedTextField locXField = new JFormattedTextField(createFormat());
+		JFormattedTextField locYField = new JFormattedTextField(createFormat());
+		JFormattedTextField lengthField = new JFormattedTextField(createFormat());
+		JFormattedTextField widthField = new JFormattedTextField(createFormat());
+		JFormattedTextField priceField = new JFormattedTextField(createFormat());
 
 		nameField.setText(this.getName());
 		locXField.setText(Integer.toString(this.getLocX()));
