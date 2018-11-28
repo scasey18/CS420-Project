@@ -1,17 +1,24 @@
 package farming;
 
-public class undoCommand implements commandPattern{
-	
+import java.io.Serializable;
+
+public class undoCommand implements commandPattern, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Pair undo;
 
 	public undoCommand(Pair undo) {
 		this.undo = undo;
 	}
-	
+
+	@SuppressWarnings("static-access")
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		switch(undo.getAction()) {
+		switch (undo.getAction()) {
 		case "Add":
 			Fscreen.createFscreen().model.removeNodeFromParent(undo.getNode1());
 			break;
@@ -23,16 +30,16 @@ public class undoCommand implements commandPattern{
 			undo.getNode1().setUserObject(undo.getObj());
 			break;
 		}
-		//Redraws the tree in order to see the readded node
+		// Redraws the tree in order to see the readded node
 		Fscreen.createFscreen().tree.repaint();
 		Fscreen.createFscreen().model.reload();
 		Fscreen.createFscreen().text.append(this.toString() + "\n");
 	}
-	
+
 	public String toString() {
-		return "Undo (" +undo.getAction() + " " + undo.getNode1() + ")";
+		return "Undo (" + undo.getAction() + " " + undo.getNode1() + ")";
 	}
-	
+
 	public Pair getPair() {
 		return undo;
 	}

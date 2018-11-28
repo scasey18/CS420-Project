@@ -2,239 +2,77 @@ package farming;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.text.NumberFormat;
+import java.io.File;
+import java.util.Enumeration;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 public class Fscreen extends JFrame {
-	
+
 	// Want to have access to these on various methods
-		/**
-		 * All buttons on the screen
-		 */
-		JButton addButton;
-		JButton removeButton;
-		JButton visualButton;
-		JButton UndoButton;
-		JButton RedoButton;
-		JButton updateButton;
-		/**
-		 * All the labels on the screen
-		 */
-		JLabel itemCount;
-		JLabel currPrice;
-		JLabel workLoad;
+	/**
+	 * All buttons on the screen
+	 */
+	JButton addButton;
+	JButton removeButton;
+	JButton visualButton;
+	JButton UndoButton;
+	JButton RedoButton;
+	JButton updateButton;
+	/**
+	 * All the labels on the screen
+	 */
+	JLabel itemCount;
+	static JLabel currPrice;
+	static JLabel workLoad;
 
-		JComboBox<String> options;
+	File currentFile;
+	boolean isSaved = true;
+	MenuBarCreator menuBar = new MenuBarCreator();
 
-		PriceVisitor prices = new PriceVisitor();
-		MarketVisitor marketPrices = new MarketVisitor();
+	JMenuBar menubar;
 
-		CountObserver cObserve = new CountObserver();
-		
-		commandBroker broker = new commandBroker();
-		
-		private static final long serialVersionUID = 1L;
-		static JScrollPane scrollPane;
-		JTextArea text;
-		private static Fscreen instance;
-		
-		/**
-		 * JTree implentation
-		 */
-		JTree tree = new JTree();
-		DefaultTreeModel model;
+	JComboBox<String> options;
 
-		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(new ItemContainer("root"));
+	static PriceVisitor prices = new PriceVisitor();
+	static MarketVisitor marketPrices = new MarketVisitor();
 
-	private class buttonListener implements ActionListener {
+	CountObserver cObserve = new CountObserver();
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			model = (DefaultTreeModel) tree.getModel();
-			DefaultMutableTreeNode child = null;
+	commandBroker broker = new commandBroker();
 
-			// e == event
-			// e.getsource returns what obj has been clicked
-			try {
-				if (e.getSource() == addButton &&
-				// This code is to see if the node can accept children (false for all except
-				// Containers)
-						((DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent()).getAllowsChildren()) {
-					// Add button has been clicked
-					// Below are all args for creating new item
-					JTextField name = new JTextField();
-					JTextField locX = new JFormattedTextField(NumberFormat.getNumberInstance());
-					JTextField locY = new JFormattedTextField(NumberFormat.getNumberInstance());
-					JTextField length = new JFormattedTextField(NumberFormat.getNumberInstance());
-					JTextField width = new JFormattedTextField(NumberFormat.getNumberInstance());
-					JTextField price = new JFormattedTextField(NumberFormat.getNumberInstance());
-					JTextField Mprice = new JFormattedTextField(NumberFormat.getNumberInstance());
+	private static final long serialVersionUID = 1L;
+	static JScrollPane scrollPane;
+	JTextArea text;
+	private static Fscreen instance;
+	static JScrollPane scroll;
+	static JScrollPane textArea;
+	/**
+	 * JTree implentation
+	 */
+	JTree tree = new JTree();
+	DefaultTreeModel model;
 
-					Object[] message = { "All of these fields are required for item creation", "Name:", name,
-							"X location:", locX, "Y location:", locY, "Length:", length, "Width:", width, "Price:",
-							price, "Market Price:", Mprice };
-					Object[] message2 = { "All of these fields are required for item creation", "Name:", name,
-							"X location:", locX, "Y location:", locY, "Length:", length, "Width:", width, "Price:",
-							price, };
-					// This pulls up two different fields because Containers do not have a market
-					// value
-					Object[] message3 = {};
-					if (options.getSelectedItem() == "Container") {
-						message3 = message2;
-					} else {
-						message3 = message;
-					}
+	UIManager ui = new UIManager();
 
-					int option = JOptionPane.showConfirmDialog(null, message3, "Create " + options.getSelectedItem(),
-							JOptionPane.OK_CANCEL_OPTION);
+	DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(new ItemContainer("root"));
 
-					// This could definitely be condensed if i was a better coder
-					if ((option == JOptionPane.OK_OPTION && !name.getText().trim().equals("")
-							&& !locX.getText().trim().equals("") && !locY.getText().trim().equals("")
-							&& !width.getText().trim().equals("") && !length.getText().trim().equals("")
-							&& !price.getText().trim().equals("") && !Mprice.getText().trim().equals(""))
-							|| (option == JOptionPane.OK_OPTION && options.getSelectedItem() == "Container"
-									&& !name.getText().trim().equals("") && !locX.getText().trim().equals("")
-									&& !locY.getText().trim().equals("") && !width.getText().trim().equals("")
-									&& !length.getText().trim().equals("") && !price.getText().trim().equals(""))) {
-						switch (String.valueOf(options.getSelectedItem())) {
-
-						case "Container":
-							child = new DefaultMutableTreeNode(
-									new ItemContainer(name.getText(), Integer.valueOf(price.getText()),
-											Integer.valueOf(locX.getText()), Integer.valueOf(locY.getText()),
-											Integer.valueOf(length.getText()), Integer.valueOf(width.getText())),
-									true);
-							break;
-
-						case "Crops":
-							String x = Dialogs.cropDialog(String.valueOf(options.getSelectedItem()));
-							if (x == null) {
-								// Do Nothing
-							} else {
-								child = new DefaultMutableTreeNode(new Crops(name.getText(),
-										Integer.valueOf(price.getText()), Integer.valueOf(locX.getText()),
-										Integer.valueOf(locY.getText()), Integer.valueOf(length.getText()),
-										Integer.valueOf(width.getText()), x, Integer.valueOf(Mprice.getText())), false);
-							}
-							break;
-
-						case "Drone":
-							child = new DefaultMutableTreeNode(new Drone(name.getText(), Integer.valueOf(price.getText()),
-									Integer.valueOf(locX.getText()), Integer.valueOf(locY.getText()),
-									Integer.valueOf(length.getText()), Integer.valueOf(width.getText()),
-									Integer.valueOf(Mprice.getText())), false);
-							break;
-
-						case "Equipment":
-							String[] a = Dialogs.equipmentDialog(String.valueOf(options.getSelectedItem()));
-							if (a == null) {
-								// nothing was input correctly
-							} else {
-								child = new DefaultMutableTreeNode(
-										new Equipment(name.getText(), Integer.valueOf(price.getText()),
-												Integer.valueOf(locX.getText()), Integer.valueOf(locY.getText()),
-												Integer.valueOf(length.getText()), Integer.valueOf(width.getText()),
-												Integer.valueOf(Mprice.getText()), a[0], a[1], a[2]),
-										false);
-							}
-							break;
-
-						case "Supplies":
-							int a1 = Dialogs.suppliesDialog(String.valueOf(options.getSelectedItem()));
-							if (a1 >= 0) {
-								child = new DefaultMutableTreeNode(new Supplies(name.getText(),
-										Integer.valueOf(price.getText()), Integer.valueOf(locX.getText()),
-										Integer.valueOf(locY.getText()), Integer.valueOf(length.getText()),
-										Integer.valueOf(width.getText()), a1, Integer.valueOf(Mprice.getText())),
-										false);
-							} else {
-
-							}
-							break;
-
-						case "Livestock":
-							String[] answer = Dialogs.liveStockDialog(String.valueOf(options.getSelectedItem()));
-							if (answer != null) {
-								child = new DefaultMutableTreeNode(
-										new LiveStock(name.getText(), Integer.valueOf(price.getText()),
-												Integer.valueOf(locX.getText()), Integer.valueOf(locY.getText()),
-												Integer.valueOf(length.getText()), Integer.valueOf(width.getText()),
-												answer[0], answer[1], Integer.valueOf(Mprice.getText())),
-										false);
-							}
-							break;
-						}
-
-						if (child != null) {
-							//Only items have a count variable
-							if (child.getUserObject().getClass().toString() != "class farming.ItemContainer") {
-								cObserve.addObserver(child);
-							}
-							model = insertNode(child, model);
-							broker.add(new undoCommand(new Pair("Add",child,(DefaultMutableTreeNode)child.getParent())));
-							tree.scrollPathToVisible(new TreePath(child.getPath()));
-							child = null;
-						}
-
-					} else if (option == JOptionPane.OK_OPTION) {
-						JOptionPane.showMessageDialog(null, "Object was not added because all fields were not filled");
-					}
-				} else if (e.getSource() == removeButton) {
-					DefaultMutableTreeNode sel = (DefaultMutableTreeNode) tree.getSelectionPath()
-							.getLastPathComponent();
-					cObserve.removeObserver(sel);
-					broker.add(new undoCommand(new Pair("Remove",sel,(DefaultMutableTreeNode)sel.getParent())));
-					model.removeNodeFromParent(sel);
-					text.append("Removed " + sel.getUserObject() + "\n");
-					itemCount.setText("Number of Items: " + cObserve.count(rootNode));
-					
-				} else if (e.getSource() == visualButton) {
-					@SuppressWarnings("unused")
-					Visualize a = new Visualize(model);
-					JOptionPane.showMessageDialog(null, "Vizualized Farm has been generated");
-				} else if (e.getSource() == UndoButton) {
-					broker.executeUndo();
-					itemCount.setText("Number of Items: " + cObserve.count(rootNode));
-				} else if (e.getSource() == RedoButton) {
-					broker.executeRedo();
-					itemCount.setText("Number of Items: " + cObserve.count(rootNode));
-				} else if (e.getSource() == updateButton) {
-					cObserve.setCount(cObserve.count(rootNode));
-				}
-			} catch (Exception NullPointerException) {
-				// Has to select a item before it can remove
-				if (e.getSource() == addButton) {
-					JOptionPane.showMessageDialog(null, "Please select a container to add items");
-				} else if (e.getSource() == removeButton) {
-					JOptionPane.showMessageDialog(null, "Please select an item to remove");
-				}
-			}
-		}
-	}
 	// Generic create button func
 	public static JButton createButton(String name, JPanel parentPanel) {
 		JButton button = new JButton(name);
@@ -242,6 +80,7 @@ public class Fscreen extends JFrame {
 		parentPanel.add(button);
 		return button;
 	}
+
 	// Generic create combo box func
 	public static JComboBox<String> createComboBox(String[] listOfOptions, JPanel parentPanel) {
 		final JComboBox<String> comboBox = new JComboBox<String>(listOfOptions);
@@ -249,12 +88,14 @@ public class Fscreen extends JFrame {
 		parentPanel.add(comboBox);
 		return comboBox;
 	}
+
 	public static synchronized Fscreen createFscreen() {
 		if (instance == null) {
 			instance = new Fscreen();
 		}
 		return instance;
 	}
+
 	// Generic create label func
 	public static JLabel createLabel(String name, JPanel parentPanel) {
 		JLabel label = new JLabel(name);
@@ -271,14 +112,24 @@ public class Fscreen extends JFrame {
 		// This takes care of centering, setting to null centers to monitor
 		this.setLocationRelativeTo(null);
 		// This makes it so program fully closes when exit button is hit
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(ListenerCreator.createWindow());
+
 		// Set title of window
 		this.setTitle("Group G Farming App");
-
+		
+		//DarkMode.applyDark();
+		
 		// Want to add components to panel, then add panel to frame (window)
 		JPanel mainPanel = new JPanel(new BorderLayout());
 
+		menubar = menuBar.createMenu();
+
+		this.setJMenuBar(menubar);
+
 		JPanel buttonPanel = new JPanel();
+
 		mainPanel.add(buttonPanel, BorderLayout.PAGE_START);
 		// List of the buttons we want to make
 		String[] buttons = { "Container", "Crops", "Drone", "Equipment", "Supplies", "Livestock" };
@@ -292,7 +143,7 @@ public class Fscreen extends JFrame {
 		visualButton = createButton("Visualize", buttonPanel);
 
 		// Button listener class
-		buttonListener buttonListener = new buttonListener();
+		ActionListener buttonListener = ListenerCreator.createButtonListener();
 		// Attach listener to buttons
 		addButton.addActionListener(buttonListener);
 		removeButton.addActionListener(buttonListener);
@@ -302,9 +153,9 @@ public class Fscreen extends JFrame {
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.setVisible(true);
 
-		JScrollPane scroll = new JScrollPane(tree);
-		
-		scroll.setPreferredSize(new Dimension(600,400));
+		scroll = new JScrollPane(tree);
+
+		scroll.setPreferredSize(new Dimension(600, 400));
 
 		JSplitPane a = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		a.setLeftComponent(scroll);
@@ -312,7 +163,7 @@ public class Fscreen extends JFrame {
 		text = new JTextArea();
 		text.setText("Created farm \n");
 		text.setEditable(false);
-		JScrollPane textArea = new JScrollPane(text);
+		textArea = new JScrollPane(text);
 		JPanel textPanel = new JPanel(new BorderLayout());
 		JPanel buttonPanel2 = new JPanel();
 		UndoButton = createButton("Undo", buttonPanel2);
@@ -328,62 +179,12 @@ public class Fscreen extends JFrame {
 		mainPanel.add(a, BorderLayout.CENTER);
 		a.setDividerLocation(scroll.getPreferredSize().width * 4 / 5);
 
-		MouseListener ml = new MouseAdapter() {
-			@SuppressWarnings("static-access")
-			public void mousePressed(MouseEvent e) {
-				try {
-					// This will show and update Info for the items in the tree
-					//Right click to show info
-					if (e.getClickCount() == 1 && e.getButton() == e.BUTTON3) {
-						DefaultMutableTreeNode selPath = (DefaultMutableTreeNode) tree
-								.getPathForLocation(e.getX(), e.getY()).getLastPathComponent();
-						Object backup = createBackup(selPath.getUserObject());
-						switch (selPath.getUserObject().getClass().toString()) {
-						case "class farming.ItemContainer":
-							((ItemContainer) selPath.getUserObject()).showInfo();
-							break;
-						case "class farming.Equipment":
-							((Equipment) selPath.getUserObject()).showInfo();
-							break;
-						case "class farming.Drone":
-							((Drone) selPath.getUserObject()).showInfo();
-							break;
-						case "class farming.Crops":
-							((Crops) selPath.getUserObject()).showInfo();
-							break;
-						case "class farming.LiveStock":
-							((LiveStock) selPath.getUserObject()).showInfo();
-							break;
-						case "class farming.Supplies":
-							((Supplies) selPath.getUserObject()).showInfo();
-							break;
-						}
-						if (selPath.getUserObject() != backup) {
-							broker.add(new undoCommand(new Pair("Update", selPath, backup)));
-						}
-						tree.repaint();
-					}
-					// The will display the market value and price for any item currently selected
-					// in the tree
-					// By updating the JLabel text
-					else if (e.getClickCount() == 1
-							&& tree.getPathForLocation(e.getX(), e.getY()).getLastPathComponent() != null) {
-						DefaultMutableTreeNode selPath = (DefaultMutableTreeNode) tree
-								.getPathForLocation(e.getX(), e.getY()).getLastPathComponent();
-						currPrice.setText("Current Price: " + prices.visit(selPath));
-						workLoad.setText("Current Market Value: " + marketPrices.visit(selPath));
-					}
-				} catch (NullPointerException h) {
-					// Do nothing as this is the UI catching a misclick or something
-				}
-
-			}
-		};
-		tree.addMouseListener(ml);
+		tree.addMouseListener(ListenerCreator.createMouse());
 
 		// The panel for all the bottom information
 		JPanel infoPanel = new JPanel();
 		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.PAGE_AXIS));
+		infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 		currPrice = createLabel("Current Price: ", infoPanel);
 		workLoad = createLabel("Current Market Value: ", infoPanel);
 		itemCount = createLabel("Number of Items: 0", infoPanel);
@@ -393,42 +194,54 @@ public class Fscreen extends JFrame {
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		this.add(mainPanel);
 		// make window visible, not true by default
+
 		this.setVisible(true);
 	}
 
-
 	// This function will update the model when adding a node to the current
 	// Container
-	private DefaultTreeModel insertNode(DefaultMutableTreeNode node, DefaultTreeModel model) {
-		model.insertNodeInto(node, (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent(),
-				((DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent()).getChildCount());
-		text.append("Added " + node.getUserObject() + "\n");
-		itemCount.setText("Number of Items: " + cObserve.count(rootNode));
+	public static DefaultTreeModel insertNode(DefaultMutableTreeNode node, DefaultTreeModel model) {
+		model.insertNodeInto(node,
+				(DefaultMutableTreeNode) Fscreen.createFscreen().tree.getSelectionPath().getLastPathComponent(),
+				((DefaultMutableTreeNode) Fscreen.createFscreen().tree.getSelectionPath().getLastPathComponent())
+						.getChildCount());
+		Fscreen.createFscreen().text.append("Added " + node.getUserObject() + "\n");
+		Fscreen.createFscreen().itemCount.setText("Number of Items: " + Fscreen.createFscreen().cObserve.count());
 		return model;
 	}
-	
+
 	public static Object createBackup(Object a) {
-		switch(a.getClass().toString()) {
+		switch (a.getClass().toString()) {
 		case "class farming.ItemContainer":
-			return ((ItemContainer)a).clone();
-			
+			return ((ItemContainer) a).clone();
 		case "class farming.Equipment":
-			return ((Equipment)a).clone();
-			
+			return ((Equipment) a).clone();
 		case "class farming.Drone":
 			return ((Drone) a).clone();
-			
 		case "class farming.Crops":
 			return ((Crops) a).clone();
-			
 		case "class farming.LiveStock":
 			return ((LiveStock) a).clone();
-			
 		case "class farming.Supplies":
 			return ((Supplies) a).clone();
-			
 		}
 		return null;
 	}
-	
+
+	public void setFarm(Farm a) {
+		Fscreen.createFscreen().broker = a.getBroker();
+		
+		Fscreen.createFscreen().tree.setModel(a.getTree());
+		Fscreen.createFscreen().text.setText(a.getText().getText());
+		Enumeration<?> a1 = ((DefaultMutableTreeNode)tree.getModel().getRoot()).postorderEnumeration();
+		DefaultMutableTreeNode node;
+		while(a1.hasMoreElements()) {
+			node = (DefaultMutableTreeNode) a1.nextElement();
+			if (node.getUserObject().getClass() != ItemContainer.class) {
+				this.cObserve.addObserver(node);
+			}
+		}
+		Fscreen.createFscreen().itemCount.setText("Number of Items: " + Fscreen.createFscreen().cObserve.count());
+		this.getContentPane().repaint();
+	}
 }

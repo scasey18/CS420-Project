@@ -1,20 +1,26 @@
 package farming;
 
+import java.io.Serializable;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
-public class Pair {
-	
+public class Pair implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String action;
 	private DefaultMutableTreeNode node1;
 	private DefaultMutableTreeNode node2;
 	private Object obj;
-	
+
 	public Pair(String action, DefaultMutableTreeNode node1, DefaultMutableTreeNode node2) {
 		this.action = action;
 		this.node1 = node1;
 		this.node2 = node2;
 	}
-	
+
 	public Pair(String action, DefaultMutableTreeNode node1, Object obj) {
 		this.action = action;
 		this.node1 = node1;
@@ -52,5 +58,5 @@ public class Pair {
 	public void setObj(Object obj) {
 		this.obj = obj;
 	}
-	
+
 }

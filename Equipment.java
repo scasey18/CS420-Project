@@ -2,53 +2,51 @@ package farming;
 
 import java.util.ArrayList;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class Equipment extends Item{
-	
-	String equipmentType; //Tractor, Feeder, etc.
-	ArrayList<String> info = new ArrayList<String>(); 
-	//hold info about this piece of equipment
-	String company; //John Deere, etc.
-	String modelNumber; //MX993, A113, etc. (Sometimes model numbers have letters)
-	
-	public Equipment(String name, int price,int locX, int locY, int length, int width,
-			int marketValue, String equipmentType) {
-		super(name,price,locX,locY,length,width,marketValue);
-		this.equipmentType = equipmentType;
-		this.company ="";
-		this.modelNumber = "";
-	}
-	
-	public Equipment(String name,int price,int locX, int locY, int length, int width,
-			int marketValue, String equipmentType, String company) {
-		super(name,price,locX,locY,length,width,marketValue);
-		this.equipmentType = equipmentType;
-		this.company = company;
-		this.modelNumber = "";
-	}
-	
-	public Equipment(String name, int price, int locX, int locY, int length, int width,int marketValue,
+public class Equipment extends Item {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	String equipmentType; // Tractor, Feeder, etc.
+	ArrayList<String> info = new ArrayList<String>();
+	// hold info about this piece of equipment
+	String company; // John Deere, etc.
+	String modelNumber; // MX993, A113, etc. (Sometimes model numbers have letters)
+
+	public Equipment(String name, int price, int locX, int locY, int length, int width, int marketValue,
 			String equipmentType, String company, String modelNumber) {
-		super(name,price,locX,locY,length,width,marketValue);
+		super(name, price, locX, locY, length, width, marketValue);
 		this.equipmentType = equipmentType;
 		this.company = company;
 		this.modelNumber = modelNumber;
 	}
-	
-	public Equipment clone() {
-		return new Equipment(name,price,locX,locY,length,width,marketValue,equipmentType,company,modelNumber);
+
+	public Equipment(String name, String price, String locX, String locY, String length, String width,
+			String marketValue, String equipmentType, String company, String modelNumber) {
+		super(name, price, locX, locY, length, width, marketValue);
+		this.equipmentType = equipmentType;
+		this.company = company;
+		this.modelNumber = modelNumber;
 	}
-	
+
+	public Equipment clone() {
+		return new Equipment(name, price, locX, locY, length, width, marketValue, equipmentType, company, modelNumber);
+	}
+
 	/**
 	 * This method adds a piece of string info to a piece of equipment
-	 * @param a, the info to be added
+	 * 
+	 * @param a,
+	 *            the info to be added
 	 */
 	public void addInfo(String a) {
 		info.add(a);
 	}
-
 
 	/**
 	 * This will remove all info from a equipment's info
@@ -56,7 +54,7 @@ public class Equipment extends Item{
 	public void clearInfo() {
 		info.clear();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -88,7 +86,7 @@ public class Equipment extends Item{
 			return false;
 		return true;
 	}
-	
+
 	public String getCompany() {
 		return company;
 	}
@@ -96,18 +94,20 @@ public class Equipment extends Item{
 	public String getEquipmentType() {
 		return equipmentType;
 	}
-	
+
 	public ArrayList<String> getInfo() {
 		return info;
 	}
-	
+
 	public String getModelNumber() {
 		return modelNumber;
 	}
-	
+
 	/**
 	 * Removes the requested info
-	 * @param a , info to be deleted
+	 * 
+	 * @param a
+	 *            , info to be deleted
 	 */
 	public void removeInfo(String a) {
 		info.remove(a);
@@ -130,51 +130,40 @@ public class Equipment extends Item{
 	}
 
 	public void showInfo() {
+		JTextField nameField = new JTextField(this.getName());
+		JFormattedTextField locXField = new JFormattedTextField(createFormat());
+		JFormattedTextField locYField = new JFormattedTextField(createFormat());
+		JFormattedTextField lengthField = new JFormattedTextField(createFormat());
+		JFormattedTextField widthField = new JFormattedTextField(createFormat());
+		JFormattedTextField priceField = new JFormattedTextField(createFormat());
+		JTextField mPriceField = new JFormattedTextField(createFormat());
 		
-		JTextField equipmentType = new JTextField();
-		JTextField company = new JTextField();
-		JTextField modelNumber = new JTextField();
-		
-		nameField.setText(this.getName());
+		JTextField equipmentType = new JTextField(this.getEquipmentType());
+		JTextField company = new JTextField(this.getCompany());
+		JTextField modelNumber = new JTextField(this.getModelNumber());
+
 		locXField.setText(Integer.toString(this.getLocX()));
 		locYField.setText(Integer.toString(this.getLocY()));
 		lengthField.setText(Integer.toString(this.getLength()));
 		widthField.setText(Integer.toString(this.getWidth()));
 		priceField.setText(Integer.toString(this.getPrice()));
 		mPriceField.setText(Integer.toString(this.getMarketValue()));
-		equipmentType.setText(this.getEquipmentType());
-		company.setText(this.getCompany());
-		modelNumber.setText(this.getModelNumber());
-		
-		Object[] equipMessage = {
-				"All of these fields are required for item creation",
-				"Name:" , nameField,
-				"X location:", locXField,
-				"Y location:", locYField,
-				"Length:", lengthField,
-				"Width:", widthField,
-				"Price:", priceField,
-				"Market Value:", mPriceField,
-				"Type of Equipment: ", equipmentType,
-    			"Company Name: ", company,
-    			"Model Number: ",modelNumber
-		};
-		
-		int result = JOptionPane.showConfirmDialog(null, equipMessage, "Update "+
-				this.getName(), JOptionPane.OK_CANCEL_OPTION);
-		
+
+		Object[] equipMessage = { "All of these fields are required for item creation", "Name:", nameField,
+				"X location:", locXField, "Y location:", locYField, "Length:", lengthField, "Width:", widthField,
+				"Price:", priceField, "Market Value:", mPriceField, "Type of Equipment: ", equipmentType,
+				"Company Name: ", company, "Model Number: ", modelNumber };
+
+		int result = JOptionPane.showConfirmDialog(null, equipMessage, "Update " + this.getName(),
+				JOptionPane.OK_CANCEL_OPTION);
+
 		if (result == JOptionPane.OK_OPTION) {
-			this.updateInfo(nameField.getText(), 
-					Integer.valueOf(priceField.getText()), 
-					Integer.valueOf(locXField.getText()), 
-					Integer.valueOf(locYField.getText()), 
-					Integer.valueOf(lengthField.getText()), 
-					Integer.valueOf(widthField.getText()), 
-					Integer.valueOf(mPriceField.getText()),
-					equipmentType.getText(), 
-					company.getText(), 
+			this.updateInfo(nameField.getText(), Integer.valueOf(priceField.getText()),
+					Integer.valueOf(locXField.getText()), Integer.valueOf(locYField.getText()),
+					Integer.valueOf(lengthField.getText()), Integer.valueOf(widthField.getText()),
+					Integer.valueOf(mPriceField.getText()), equipmentType.getText(), company.getText(),
 					modelNumber.getText());
-			Fscreen.createFscreen().text.append("Updated "+ this.toString() + "\n");
+			Fscreen.createFscreen().text.append("Updated " + this.toString() + "\n");
 		}
 	}
 
@@ -182,7 +171,7 @@ public class Equipment extends Item{
 		return name + " - Equipment";
 	}
 
-	public void updateInfo(String name, int price, int locX, int locY, int length, int width,int marketValue,
+	public void updateInfo(String name, int price, int locX, int locY, int length, int width, int marketValue,
 			String equipmentType, String company, String modelNumber) {
 		this.setName(name);
 		this.setPrice(price);
@@ -195,5 +184,5 @@ public class Equipment extends Item{
 		this.setCompany(company);
 		this.setModelNumber(modelNumber);
 	}
-	
+
 }
