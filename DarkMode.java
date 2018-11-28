@@ -6,6 +6,8 @@ import javax.swing.BorderFactory;
 import javax.swing.UIManager;
 
 public class DarkMode {
+	
+	static Boolean darkTheme = false;
 
 	public static void applyDark() {
 		UIManager.put("Panel.background", new Color(42, 42, 42));
@@ -43,15 +45,55 @@ public class DarkMode {
 		UIManager.put("MenuBar.foreground", Color.white);
 
 		// JMenu
-		UIManager.put("Menu.foreground", Color.WHITE);
-		UIManager.put("Menu.background", new Color(74,74,74));
+		UIManager.put("menuText", new Color(101, 156, 181));
+	}
+	
+	public static void applyLight() {
 		
-		//JMenuItem
-		UIManager.put("MenuItem.foreground", Color.WHITE);
-		UIManager.put("MenuItem.background", new Color(74,74,74));
-		
-		//JFileChooser
-		UIManager.put("FileChooser.listViewBackground", new Color(74,74,74));
+		UIManager.put("Panel.background", Color.white);
+
+		// JLabel edits
+		UIManager.put("Label.foreground", Color.black);
+
+		// Button edits
+		UIManager.put("Button.background", Color.white);
+		UIManager.put("Button.foreground", Color.black);
+
+		// TextArea edits
+		UIManager.put("TextArea.background", Color.gray);
+		UIManager.put("TextArea.foreground", Color.black);
+		// Also for JTree
+		UIManager.put("ScrollPane.border", BorderFactory.createEmptyBorder());
+
+		// The JTree edits
+		UIManager.put("Tree.background", Color.white);
+		UIManager.put("Tree.textBackground", Color.white);
+		UIManager.put("Tree.textForeground", Color.black);
+
+		// Option Panes
+		UIManager.put("OptionPane.background", Color.white);
+		UIManager.put("OptionPane.messageForeground", Color.gray);
+
+		// SplitPane
+		UIManager.put("SplitPane.border", Color.white);
+		UIManager.put("SplitPaneDivider.draggingColor", Color.black);
+		UIManager.put("SplitPane.dividerSize", 5);
+
+		// JMenuBar
+		UIManager.put("MenuBar.background", Color.white);
+		UIManager.put("MenuBar.border", Color.white);
+		UIManager.put("MenuBar.foreground", Color.black);
+
+		// JMenu
+		UIManager.put("menuText", Color.BLACK);
+	}
+	
+	public static boolean getDarkTheme() {
+		return darkTheme;
+	}
+	
+	public static void setDarkTheme(Boolean input) {
+		darkTheme = input;
 	}
 
 }
