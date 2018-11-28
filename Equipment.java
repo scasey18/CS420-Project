@@ -136,6 +136,8 @@ public class Equipment extends Item {
 		JFormattedTextField lengthField = new JFormattedTextField(createFormat());
 		JFormattedTextField widthField = new JFormattedTextField(createFormat());
 		JFormattedTextField priceField = new JFormattedTextField(createFormat());
+		JTextField mPriceField = new JFormattedTextField(createFormat());
+		
 		JTextField equipmentType = new JTextField(this.getEquipmentType());
 		JTextField company = new JTextField(this.getCompany());
 		JTextField modelNumber = new JTextField(this.getModelNumber());

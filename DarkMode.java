@@ -43,7 +43,15 @@ public class DarkMode {
 		UIManager.put("MenuBar.foreground", Color.white);
 
 		// JMenu
-		UIManager.put("menuText", new Color(101, 156, 181));
+		UIManager.put("Menu.foreground", Color.WHITE);
+		UIManager.put("Menu.background", new Color(74,74,74));
+		
+		//JMenuItem
+		UIManager.put("MenuItem.foreground", Color.WHITE);
+		UIManager.put("MenuItem.background", new Color(74,74,74));
+		
+		//JFileChooser
+		UIManager.put("FileChooser.listViewBackground", new Color(74,74,74));
 	}
 
 }

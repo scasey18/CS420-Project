@@ -25,14 +25,12 @@ public class CountObserver implements Serializable {
 	@SuppressWarnings({ "rawtypes" })
 	public int count() {
 		int countA = 0;
-		Enumeration a = Fscreen.createFscreen().rootNode.postorderEnumeration();
+		Enumeration a = ((DefaultMutableTreeNode)Fscreen.createFscreen().tree.getModel().getRoot()).postorderEnumeration();
 		DefaultMutableTreeNode b;
 		// Iterates through every node and if it is not a ItemContainer add 1
 		// Meaning it has to be an item so add to the count and move on
 		while (a.hasMoreElements()) {
 			b = (DefaultMutableTreeNode) a.nextElement();
-			// if (b.getUserObject().getClass().toString() == "class farming.ItemContainer")
-			// {
 			if (b.getAllowsChildren() == false) {
 				countA++;
 			}

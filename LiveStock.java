@@ -123,6 +123,8 @@ public class LiveStock extends Item {
 		JFormattedTextField lengthField = new JFormattedTextField(createFormat());
 		JFormattedTextField widthField = new JFormattedTextField(createFormat());
 		JFormattedTextField priceField = new JFormattedTextField(createFormat());
+		JTextField mPriceField = new JFormattedTextField(createFormat());
+		
 		JTextField animalType = new JTextField(this.getAnimalType());
 		JTextField animalGender = new JTextField(this.getGender());
 

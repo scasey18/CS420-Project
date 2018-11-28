@@ -58,6 +58,7 @@ public class Supplies extends Item {
 		JFormattedTextField lengthField = new JFormattedTextField(createFormat());
 		JFormattedTextField widthField = new JFormattedTextField(createFormat());
 		JFormattedTextField priceField = new JFormattedTextField(createFormat());
+		JTextField mPriceField = new JFormattedTextField(createFormat());
 
 		JFormattedTextField count = new JFormattedTextField(createFormat());
 

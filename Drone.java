@@ -47,6 +47,7 @@ public class Drone extends Item {
 		JFormattedTextField lengthField = new JFormattedTextField(createFormat());
 		JFormattedTextField widthField = new JFormattedTextField(createFormat());
 		JFormattedTextField priceField = new JFormattedTextField(createFormat());
+		JTextField mPriceField = new JFormattedTextField(createFormat());
 
 		nameField.setText(this.getName());
 		locXField.setText(Integer.toString(this.getLocX()));

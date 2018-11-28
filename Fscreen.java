@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Enumeration;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -117,7 +118,9 @@ public class Fscreen extends JFrame {
 
 		// Set title of window
 		this.setTitle("Group G Farming App");
-		// DarkMode.applyDark();
+		
+		//DarkMode.applyDark();
+		
 		// Want to add components to panel, then add panel to frame (window)
 		JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -227,9 +230,18 @@ public class Fscreen extends JFrame {
 
 	public void setFarm(Farm a) {
 		Fscreen.createFscreen().broker = a.getBroker();
-		this.cObserve = a.getObserver();
+		
 		Fscreen.createFscreen().tree.setModel(a.getTree());
 		Fscreen.createFscreen().text.setText(a.getText().getText());
+		Enumeration<?> a1 = ((DefaultMutableTreeNode)tree.getModel().getRoot()).postorderEnumeration();
+		DefaultMutableTreeNode node;
+		while(a1.hasMoreElements()) {
+			node = (DefaultMutableTreeNode) a1.nextElement();
+			if (node.getUserObject().getClass() != ItemContainer.class) {
+				this.cObserve.addObserver(node);
+			}
+		}
+		Fscreen.createFscreen().itemCount.setText("Number of Items: " + Fscreen.createFscreen().cObserve.count());
 		this.getContentPane().repaint();
 	}
 }

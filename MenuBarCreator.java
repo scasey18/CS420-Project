@@ -10,11 +10,14 @@ import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 
 import javax.swing.AbstractAction;
+import javax.swing.ButtonGroup;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 
 public class MenuBarCreator {
@@ -186,6 +189,35 @@ public class MenuBarCreator {
 			}
 
 		});
+		
+		ButtonGroup designTab = new ButtonGroup();
+		@SuppressWarnings("serial")
+		JRadioButtonMenuItem darkMode = new JRadioButtonMenuItem (new AbstractAction("Dark") {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				DarkMode.applyDark();
+				SwingUtilities.updateComponentTreeUI(Fscreen.createFscreen());
+			}
+			
+		});
+		
+		@SuppressWarnings("serial")
+		JRadioButtonMenuItem lightMode = new JRadioButtonMenuItem (new AbstractAction("Light") {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				//DarkMode.applyDark();
+				SwingUtilities.updateComponentTreeUI(Fscreen.createFscreen());
+			}
+			
+		});
+		
+		designTab.add(darkMode); designTab.add(lightMode);
+		JMenu designOption = new JMenu("Design");
+		designOption.add(darkMode); designOption.add(lightMode);
 
 		JMenuBar menu = new JMenuBar();
 		
@@ -197,6 +229,7 @@ public class MenuBarCreator {
 		fileOption.add(close);
 		
 		menu.add(fileOption);
+		menu.add(designOption);
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		return menu;
 	}

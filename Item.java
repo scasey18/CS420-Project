@@ -1,8 +1,5 @@
 package farming;
 
-import javax.swing.JFormattedTextField;
-import javax.swing.JTextField;
-
 public class Item extends commonItem {
 
 	/**
@@ -11,8 +8,6 @@ public class Item extends commonItem {
 	private static final long serialVersionUID = 1L;
 	int marketValue; // Item market value
 	int itemCount; // total count of items to be held by all items
-
-	JTextField mPriceField = new JFormattedTextField(createFormat());
 
 	public Item(String name, int price, int locX, int locY, int length, int width, int marketValue) {
 		this.name = name;
