@@ -28,6 +28,7 @@ public class MenuBarCreator {
 	JMenuItem saveAsItem;
 	JMenuItem close;
 	JMenuItem openItem;
+	JMenuItem switchTheme;
 
 	public MenuBarCreator() {
 
@@ -189,7 +190,7 @@ public class MenuBarCreator {
 			}
 
 		});
-		
+
 		ButtonGroup designTab = new ButtonGroup();
 		@SuppressWarnings("serial")
 		JRadioButtonMenuItem darkMode = new JRadioButtonMenuItem (new AbstractAction("Dark") {
@@ -209,7 +210,7 @@ public class MenuBarCreator {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				//DarkMode.applyDark();
+				DarkMode.applyLight();
 				SwingUtilities.updateComponentTreeUI(Fscreen.createFscreen());
 			}
 			
@@ -218,6 +219,9 @@ public class MenuBarCreator {
 		designTab.add(darkMode); designTab.add(lightMode);
 		JMenu designOption = new JMenu("Design");
 		designOption.add(darkMode); designOption.add(lightMode);
+
+
+		
 
 		JMenuBar menu = new JMenuBar();
 		
