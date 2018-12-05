@@ -58,5 +58,12 @@ public class Pair implements Serializable {
 	public void setObj(Object obj) {
 		this.obj = obj;
 	}
+	
+	public Pair clone() {
+		if (this.getObj() != null) {
+			return new Pair(this.getAction(),this.getNode1(),this.getObj());
+		}
+		return new Pair(this.getAction(),this.getNode1(),this.getNode2());
+	}
 
 }

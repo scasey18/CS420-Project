@@ -257,7 +257,6 @@ public class ListenerCreator {
 					} else if (e.getSource() == Fscreen.createFscreen().visualButton) {
 						@SuppressWarnings("unused")
 						Visualize a = new Visualize(Fscreen.createFscreen().model);
-						JOptionPane.showMessageDialog(null, "Vizualized Farm has been generated");
 					} else if (e.getSource() == Fscreen.createFscreen().UndoButton) {
 						Fscreen.createFscreen().broker.executeUndo();
 						
