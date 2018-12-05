@@ -273,6 +273,12 @@ public class ListenerCreator {
 					} else if (e.getSource() == Fscreen.createFscreen().removeButton) {
 						JOptionPane.showMessageDialog(null, "Please select an item to remove");
 					}
+					else if (e.getSource() == Fscreen.createFscreen().UndoButton) {
+						JOptionPane.showMessageDialog(null, "There is no quened action to undo");
+					}
+					else if (e.getSource() == Fscreen.createFscreen().RedoButton) {
+						JOptionPane.showMessageDialog(null, "There is no quened action to redo");
+					}
 				}
 			}
 
