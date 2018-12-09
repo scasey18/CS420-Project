@@ -257,7 +257,6 @@ public class ListenerCreator {
 					} else if (e.getSource() == Fscreen.createFscreen().visualButton) {
 						@SuppressWarnings("unused")
 						Visualize a = new Visualize(Fscreen.createFscreen().model);
-						JOptionPane.showMessageDialog(null, "Vizualized Farm has been generated");
 					} else if (e.getSource() == Fscreen.createFscreen().UndoButton) {
 						Fscreen.createFscreen().broker.executeUndo();
 						
@@ -273,6 +272,12 @@ public class ListenerCreator {
 						JOptionPane.showMessageDialog(null, "Please select a container to add items");
 					} else if (e.getSource() == Fscreen.createFscreen().removeButton) {
 						JOptionPane.showMessageDialog(null, "Please select an item to remove");
+					}
+					else if (e.getSource() == Fscreen.createFscreen().UndoButton) {
+						JOptionPane.showMessageDialog(null, "There is no quened action to undo");
+					}
+					else if (e.getSource() == Fscreen.createFscreen().RedoButton) {
+						JOptionPane.showMessageDialog(null, "There is no quened action to redo");
 					}
 				}
 			}

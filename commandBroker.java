@@ -36,8 +36,15 @@ public class commandBroker implements Serializable {
 
 	public void executeRedo() {
 		redoCommand a = this.redoCommands.peek();
+		if (a.getPair().getAction() == "Update") {
+			this.add(new undoCommand(
+					new Pair("Update", a.getPair().getNode1(), a.getPair().getNode1().getUserObject())));
+		}
+		else {
+			this.add(new undoCommand(a.getPair()));
+		}
 		a.execute();
-		undoCommands.pop();
+		redoCommands.pop();
 		Fscreen.createFscreen().itemCount.setText("Number of Items: " + Fscreen.createFscreen().cObserve.count());
 		Fscreen.createFscreen().isSaved = false;
 	}

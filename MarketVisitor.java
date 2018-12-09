@@ -33,7 +33,7 @@ public class MarketVisitor implements Visitor {
 			return ObjectMPrice(node);
 		} else {
 			int price = ObjectMPrice(node);
-			Enumeration<?> child = node.children();
+			Enumeration<?> child = node.postorderEnumeration();
 			while (child.hasMoreElements()) {
 				price += ObjectMPrice((DefaultMutableTreeNode) child.nextElement());
 			}
