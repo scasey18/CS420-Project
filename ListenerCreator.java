@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -257,6 +258,7 @@ public class ListenerCreator {
 					} else if (e.getSource() == Fscreen.createFscreen().visualButton) {
 						@SuppressWarnings("unused")
 						Visualize a = new Visualize(Fscreen.createFscreen().model);
+						JOptionPane.showMessageDialog(null, "Vizualized Farm has been generated");
 					} else if (e.getSource() == Fscreen.createFscreen().UndoButton) {
 						Fscreen.createFscreen().broker.executeUndo();
 						
@@ -266,18 +268,15 @@ public class ListenerCreator {
 					} else if (e.getSource() == Fscreen.createFscreen().updateButton) {
 						Fscreen.createFscreen().cObserve.setCount(Fscreen.createFscreen().cObserve.count());
 					}
+					else if(e.getSource() == Fscreen.createFscreen().devButton) {
+						Fscreen.createFscreen().advertise(null);
+					}
 				} catch (Exception NullPointerException) {
 					// Has to select a item before it can remove
 					if (e.getSource() == Fscreen.createFscreen().addButton) {
 						JOptionPane.showMessageDialog(null, "Please select a container to add items");
 					} else if (e.getSource() == Fscreen.createFscreen().removeButton) {
 						JOptionPane.showMessageDialog(null, "Please select an item to remove");
-					}
-					else if (e.getSource() == Fscreen.createFscreen().UndoButton) {
-						JOptionPane.showMessageDialog(null, "There is no quened action to undo");
-					}
-					else if (e.getSource() == Fscreen.createFscreen().RedoButton) {
-						JOptionPane.showMessageDialog(null, "There is no quened action to redo");
 					}
 				}
 			}
