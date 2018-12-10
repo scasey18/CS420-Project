@@ -2,11 +2,15 @@ package farming;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -34,6 +38,7 @@ public class Fscreen extends JFrame {
 	JButton UndoButton;
 	JButton RedoButton;
 	JButton updateButton;
+	JButton devButton;
 	/**
 	 * All the labels on the screen
 	 */
@@ -139,6 +144,7 @@ public class Fscreen extends JFrame {
 		addButton = createButton("Add", buttonPanel);
 		removeButton = createButton("Remove", buttonPanel);
 		visualButton = createButton("Visualize", buttonPanel);
+		devButton = createButton("Support Devs", buttonPanel);
 
 		// Button listener class
 		ActionListener buttonListener = ListenerCreator.createButtonListener();
@@ -146,6 +152,7 @@ public class Fscreen extends JFrame {
 		addButton.addActionListener(buttonListener);
 		removeButton.addActionListener(buttonListener);
 		visualButton.addActionListener(buttonListener);
+		devButton.addActionListener(buttonListener);
 
 		tree = new JTree(rootNode);
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -232,5 +239,21 @@ public class Fscreen extends JFrame {
 		Fscreen.createFscreen().tree.setModel(a.getTree());
 		Fscreen.createFscreen().text.setText(a.getText().getText());
 		this.getContentPane().repaint();
+	}
+    // help from https://stackoverflow.com/questions/24147671/open-new-screen-or-page-on-button-click-java-eclipse
+	public static void advertise(final String[] args) {
+		final JFrame parent = new JFrame();
+		JButton button = new JButton();
+		try {
+			parent.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("farmers.jpg")))));
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		button.setText("Click for advertisement");
+		parent.add(button);
+		parent.pack();
+		parent.setVisible(true);
+		
 	}
 }
