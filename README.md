@@ -1,5 +1,6 @@
 Download and Compile all the files located in this folder.
 Run mainFile to launch the program
+For advertisment to work, the .jpeg file needs to line up with .settings folder
 
 Status:
 1. There is a working file tab and ability to import and export saved farms but you cannot update them until you do a name update and then undo it for every node then it works fine
